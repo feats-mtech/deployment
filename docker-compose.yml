@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    image: feats-backend:latest
+    container_name: feats-backend
+    command: ./gradlew bootRun
+    volumes:
+      - .:/home/gradle/project
+    working_dir: /home/gradle/project
+    ports:
+      - "8089:8089"
+    depends_on:
+      - db
+
+  # frontend:
+  #   image: feats-frontend:latest
+  #   container_name: feats-frontend
+  #   command: npm start
+  #   volumes:
+  #     - ./frontend:/app
+  #   working_dir: /app
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - backend
+
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
