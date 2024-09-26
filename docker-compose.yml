@@ -4,6 +4,8 @@ services:
   backend:
     image: feats-backend:latest
     container_name: feats-backend
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
     command: ./gradlew bootRun
     volumes:
       - .:/home/gradle/project
