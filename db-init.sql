@@ -1,10 +1,9 @@
 
-create TABLE IF NOT EXISTS user_account(
-	user_id varchar not null,
-	user_name varchar not null,
-	user_password varchar not null,
-	user_email varchar not null,
-	user_status INTEGER
-	
-	);
+CREATE TABLE IF NOT EXISTS user_account(
+	user_id VARCHAR not null,
+	user_name VARCHAR not null,
+	user_password VARCHAR not null,
+	user_email VARCHAR not null,
+	user_status INTEGER	
+);
 	
