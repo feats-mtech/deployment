@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feats-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feats-frontend
+  template:
+    metadata:
+      labels:
+        app: feats-frontend
+    spec:
+      containers:
+      - name: feats-frontend
+        image: registry.digitalocean.com/group3/feats-frontend:latest
+        resources:
+          requests:
+            cpu: 250m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
+            cpu: 500m
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: feats-frontend-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feats-frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: feats-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: feats-frontend-config
+data:
+  PORT: "3000"
+  HOST: "127.0.0.1"

@@ -1,6 +1,40 @@
 # Kubernetes
 
-## Running a Kubernetes YAML File in minikube cluster
+## Running Kubernetes on DigitalOcean
+
+### Prerequisites
+- Install [doctl](https://docs.digitalocean.com/reference/doctl/how-to/install/) (official DigitalOcean CLI)
+- DigitalOcean Kubernetes cluster created
+- DigitalOcean container registry created and linked to Kubernetes cluster
+
+### Setup
+
+This section is still WIP
+
+#### Install an ingress controller
+
+DigitalOcean Kubernetes doesn’t automatically install an Ingress Controller, so you’ll need to install one. NGINX Ingress Controller is a common choice:
+
+`kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml`
+
+This will install the NGINX Ingress Controller in your cluster, which handles routing traffic from the outside world into your cluster.
+
+
+verify deployment by running:
+`kubectl get pods -n ingress-nginx`
+
+check service type for ingress controller:
+`kubectl get svc -n ingress-nginx`
+
+If the **EXTERNAL-IP** is `<pending>`, it means the external IP is being provisioned, which may take a few minutes.
+
+
+#### Firewall settings
+
+We need to add inbound rules to the existing firewall meant for public access. Add HTTP and HTTPS inbound rules to the firewall within the kubernetes cluster. View the firewall settings [here](https://cloud.digitalocean.com/networking/firewalls)
+
+
+## Running Kubernetes on Minikube
 
 To run a Kubernetes YAML file for local testing purposes, follow these steps:
 
@@ -16,27 +50,31 @@ To run a Kubernetes YAML file for local testing purposes, follow these steps:
     minikube start
     ```
 
-4. **Apply the YAML File**:
+4. **Building your Docker images**
+    If you built your images locally, you need to load it into Minikube:
+    ```sh
+    eval $(minikube docker-env)               # Point to Minikube's Docker daemon
+    cd /projects/frontend                     # Go to your project root folder
+    docker build -t feats-frontend:latest .   # Build the image locally
+    ```
+
+5. **Apply the YAML File**:
     Navigate to the directory containing the Kubernetes YAML file and apply it using `kubectl`:
     ```sh
     kubectl apply -f k8s/local/frontend-local.yaml
     ```
 
-5. **Verify Deployment**:
+6. **Verify Deployment**:
     Check the status of your deployment to ensure everything is running correctly:
     ```sh
     kubectl get pods
     kubectl get services
     ```
 
-6. **Access Your Application**:
+7. **Access Your Application**:
     If your application is exposed via a service, you can access it using the Minikube IP and the service port:
     ```sh
     minikube service <service-name>
     ```
 
 Replace `<service-name>` with the name of your service obtained from `kubectl get services`.
-
-## Running a Kubernetes YAML in the cloud
-
-WIP
