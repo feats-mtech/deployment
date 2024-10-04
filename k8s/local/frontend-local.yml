@@ -15,6 +15,7 @@ spec:
       containers:
       - name: feats-frontend
         image: feats-frontend:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 80
         envFrom:
