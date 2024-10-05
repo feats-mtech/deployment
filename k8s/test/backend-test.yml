@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feats-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feats-backend
+  template:
+    metadata:
+      labels:
+        app: feats-backend
+    spec:
+      containers:
+      - name: feats-backend
+        image: registry.digitalocean.com/group3/feats-backend:latest
+        ports:
+        - containerPort: 8089 
+        envFrom:
+        - configMapRef:
+            name: feats-backend-config
+        env:
+        - name: POSTGRES_HOST
+          value: postgres
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: feats-backend-secret
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: feats-backend-secret
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: feats-backend-secret
+              key: POSTGRES_DB
+        - name: POSTGRES_PORT
+          valueFrom:
+            secretKeyRef:
+              name: feats-backend-secret
+              key: POSTGRES_PORT
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feats-backend
+spec:
+  selector:
+    app: feats-backend
+  ports:
+    - protocol: TCP
+      port: 8089
+      targetPort: 8089
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: feats-backend-config
+data:
+  SPRING_PROFILES_ACTIVE: "k8test"
+  POSTGRES_K8_TEST_IP: "192.168.49.2" # IP of digitalocean k8 test cluster

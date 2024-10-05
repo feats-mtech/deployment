@@ -1,1 +1,5 @@
 logs
+
+# secrets for k8 files
+secret-test.yml
+secret-prod.yml
