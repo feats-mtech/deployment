@@ -1,12 +1,21 @@
 # Deployment
 
-This repository contains the files for local, testing and production deployment. This includes the following files:
+This repository contains the files for local, testing and production deployment
 
-`docker-compose-yml`: for local deployment
+## Folder Structure
 
-(Other files WIP)
+```
+🗂️── k8s                     Kubernetes YML files for deployment
+|  ├──🗂️ local               k8 local files for deployment to minikube
+|  ├──🗂️ test                k8 yml files for deployment to DigitalOcean test environment
+|  ├──🗂️ prod                k8 yml files for deployment to DigitalOcean prod environment
+🗂️── scripts                 Holds scripts (e.g. for database initialisation)
+└── docker-compose.yml       For local development and testing using docker containers
+```
 
 ## Commands
+
+### Docker
 
 ```sh
 # starts up services in listed in `docker-compose.yml`
@@ -18,3 +27,9 @@ docker-compose up -d
 # stops the services listed in `docker-compose.yml`
 docker-compose down
 ```
+
+## Continuous Delivery
+
+Continuous Deployment is done using [ArgoCD](https://argo-cd.readthedocs.io/en/stable/).
+
+This repository is the target repository for both [frontend](https://github.com/mtechse-dmss-capstone/frontend) and [backend](https://github.com/mtechse-dmss-capstone/backend) to update the image versions of the kubernetes YML files. Upon a successful merge of a pull request to the main branch in the frontend/backend repository, the CI pipeline will update the image version of the kubernetes YML files in this repository. There will be an ArgoCD agent in the kubernetes cluster on hosted on DigitalOcean which listens to version changes in this repository. 

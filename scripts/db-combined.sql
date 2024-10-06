@@ -79,4 +79,3 @@ CREATE TABLE IF NOT EXISTS user_ingredients(
 	update_datetime TIMESTAMP WITH TIME ZONE not null,
   	primary key (id)
 );
-

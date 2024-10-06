@@ -6,4 +6,3 @@ CREATE TABLE IF NOT EXISTS user_account(
 	user_email VARCHAR not null,
 	user_status INTEGER	
 );
-	
