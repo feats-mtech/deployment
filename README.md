@@ -10,6 +10,7 @@ This repository contains the files for local, testing and production deployment
 |  ├──🗂️ test                k8 yml files for deployment to DigitalOcean test environment
 |  ├──🗂️ prod                k8 yml files for deployment to DigitalOcean prod environment
 🗂️── scripts                 Holds scripts (e.g. for database initialisation)
+🗂️── terraform               Holds terraform IAC scripts
 └── docker-compose.yml       For local development and testing using docker containers
 ```
 

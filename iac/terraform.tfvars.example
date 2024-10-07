@@ -1,0 +1,4 @@
+do_token           = "replace_your_digital_ocean_token_here"
+db_username        = "put_your_username_here"
+db_name            = "postgres"
+container_registry = "group3"
