@@ -16,6 +16,12 @@ variable "container_registry" {
   default     = "group3"
 }
 
+variable "cluster_name" {
+  type        = string
+  description = "DigitalOcean K8 Cluster name"
+  default     = "app-cluster"
+}
+
 // DATABASE
 
 variable "db_username" {

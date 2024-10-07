@@ -13,7 +13,7 @@ provider "digitalocean" {
 
 # DigitalOcean Kubernetes Cluster
 resource "digitalocean_kubernetes_cluster" "app_cluster" {
-  name    = "app-cluster"
+  name    = var.cluster_name
   region  = var.region
   version = "1.31.1-do.1"
 
@@ -28,19 +28,6 @@ resource "digitalocean_kubernetes_cluster" "app_cluster" {
 resource "digitalocean_vpc" "app_vpc" {
   name   = "app-vpc"
   region = var.region
-}
-
-# Kubernetes load balancer for external traffic
-resource "digitalocean_loadbalancer" "app_lb" {
-  name   = "app-lb"
-  region = var.region
-  forwarding_rule {
-    entry_protocol  = "http"
-    entry_port      = 80
-    target_protocol = "http"
-    target_port     = 80
-  }
-  droplet_tag = "k8s-node"
 }
 
 # PostgreSQL Database
