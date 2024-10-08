@@ -15,8 +15,13 @@ Terraform is used to provision infrastructure through Infrastructure as Code (IA
 
 ## Infrastructure
 
-WIP: to fill up provisioned infrastructure
-
+| File            | Infrastructure               |
+| --------------- | ---------------------------- |
+| `main.tf`       | K8 cluster, VPC              |
+| `database.tf`   | Postgresql DB with replica   |
+| `firewall.tf`   | VPC firewall                 |
+| `grafana.tf`    | Grafana services             |
+| `argocd.tf`     | ArgoCD services              |
 
 ## Commands
 
