@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS user_account(
 
 -- id is a running number...
 CREATE TABLE IF NOT EXISTS recipe(
-	id serial,
+	id SERIAL,
 	creator_id INTEGER not null,
 	name VARCHAR not null,
 	image VARCHAR,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS recipe_review(
 
 -- combine key of id and recipe_id
 CREATE TABLE IF NOT EXISTS recipe_cooking_step(
-	id INTEGER,
+	id SERIAL,
 	recipe_id INTEGER,
 	description VARCHAR not null,
 	image VARCHAR,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS recipe_cooking_step(
 );
 -- id is labelled manually, with recipe Id, both together is the primary key...
 CREATE TABLE IF NOT EXISTS recipe_ingredients(
-	id INTEGER,
+	id SERIAL,
 	recipe_id INTEGER,
 	name VARCHAR not null,
 	quantity DOUBLE precision not null,
