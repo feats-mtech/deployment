@@ -23,26 +23,26 @@ spec:
         env:
         - name: POSTGRES_HOST
           value: postgres
-        - name: POSTGRES_USER
+        - name: POSTGRES_K8_TEST_USER
           valueFrom:
             secretKeyRef:
               name: feats-backend-secret
-              key: POSTGRES_USER
-        - name: POSTGRES_PASSWORD
+              key: POSTGRES_K8_TEST_USER
+        - name: POSTGRES_K8_TEST_PASSWORD
           valueFrom:
             secretKeyRef:
               name: feats-backend-secret
-              key: POSTGRES_PASSWORD
+              key: POSTGRES_K8_TEST_PASSWORD
         - name: POSTGRES_DB
           valueFrom:
             secretKeyRef:
               name: feats-backend-secret
               key: POSTGRES_DB
-        - name: POSTGRES_PORT
+        - name: POSTGRES_K8_TEST_PORT
           valueFrom:
             secretKeyRef:
               name: feats-backend-secret
-              key: POSTGRES_PORT
+              key: POSTGRES_K8_TEST_PORT
 
 ---
 apiVersion: v1
@@ -65,4 +65,3 @@ metadata:
   name: feats-backend-config
 data:
   SPRING_PROFILES_ACTIVE: "k8test"
-  POSTGRES_K8_TEST_IP: "192.168.49.2" # IP of digitalocean k8 test cluster
