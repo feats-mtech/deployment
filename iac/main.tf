@@ -11,6 +11,11 @@ provider "digitalocean" {
   token = var.do_token
 }
 
+provider "github" {
+  token = var.github_token
+  owner = var.github_username
+}
+
 # DigitalOcean Kubernetes Cluster
 resource "digitalocean_kubernetes_cluster" "app_cluster" {
   name    = var.cluster_name
@@ -29,4 +34,13 @@ resource "digitalocean_kubernetes_cluster" "app_cluster" {
 resource "digitalocean_vpc" "app_vpc" {
   name   = "app-vpc"
   region = var.region
+}
+
+resource "null_resource" "save_kubeconfig" {
+  // saves the kubeconfig to the local machine
+  provisioner "local-exec" {
+    command = "doctl kubernetes cluster kubeconfig save ${digitalocean_kubernetes_cluster.app_cluster.id}"
+  }
+
+  depends_on = [digitalocean_kubernetes_cluster.app_cluster]
 }

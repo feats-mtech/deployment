@@ -2,10 +2,6 @@ output "kubernetes_cluster_name" {
   value = digitalocean_kubernetes_cluster.app_cluster.name
 }
 
-# output "grafana_url" {
-#   value = helm_release.grafana.url
-# }
-
 // DATABASE
 
 output "postgresql_db_uri" {
@@ -14,7 +10,7 @@ output "postgresql_db_uri" {
 }
 
 output "postgresql_user" {
-  value     = var.db_username
+  value     = digitalocean_database_cluster.postgresql.user
   sensitive = true
 }
 

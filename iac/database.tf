@@ -1,5 +1,5 @@
 resource "digitalocean_database_cluster" "postgresql" {
-  name       = "postgres"
+  name       = var.db_name
   engine     = "pg"
   version    = "13"
   size       = "db-s-2vcpu-4gb"
@@ -12,11 +12,6 @@ resource "digitalocean_database_cluster" "postgresql" {
 resource "digitalocean_database_user" "db_user" {
   cluster_id = digitalocean_database_cluster.postgresql.id
   name       = var.db_username
-}
-
-resource "digitalocean_database_db" "app_db" {
-  cluster_id = digitalocean_database_cluster.postgresql.id
-  name       = var.db_name
 }
 
 resource "digitalocean_database_replica" "postgresql_replica" {

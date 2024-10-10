@@ -4,6 +4,11 @@ logs
 secret-test.yml
 secret-prod.yml
 
+# keys to use in terraform
+argo
+argo.pub
+tls.*
+
 # terraform
 .terraform
 *.tfstate
