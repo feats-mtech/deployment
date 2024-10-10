@@ -22,27 +22,10 @@ spec:
             name: feats-backend-config
         env:
         - name: POSTGRES_HOST
-          value: postgres
         - name: POSTGRES_K8_TEST_USER
-          valueFrom:
-            secretKeyRef:
-              name: feats-backend-secret
-              key: POSTGRES_K8_TEST_USER
         - name: POSTGRES_K8_TEST_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: feats-backend-secret
-              key: POSTGRES_K8_TEST_PASSWORD
         - name: POSTGRES_DB
-          valueFrom:
-            secretKeyRef:
-              name: feats-backend-secret
-              key: POSTGRES_DB
         - name: POSTGRES_K8_TEST_PORT
-          valueFrom:
-            secretKeyRef:
-              name: feats-backend-secret
-              key: POSTGRES_K8_TEST_PORT
 
 ---
 apiVersion: v1
