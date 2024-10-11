@@ -152,3 +152,15 @@ resource "kubernetes_manifest" "argocd_application" {
 
   depends_on = [helm_release.argocd]
 }
+
+// ArgoCD
+output "argocd_admin_password" {
+  value = data.kubernetes_secret.argocd_admin_password.data.password
+  sensitive = true
+  depends_on = [data.kubernetes_secret.argocd_admin_password]
+}
+
+output "argocd_server_load_balancer_ip" {
+  value = data.kubernetes_service.argocd_server.status[0].load_balancer[0].ingress[0].ip
+  description = "The external IP of the ArgoCD server LoadBalancer."
+}
