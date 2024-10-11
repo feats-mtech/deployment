@@ -7,6 +7,10 @@ terraform {
   }
 }
 
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}
+
 provider "digitalocean" {
   token = var.do_token
 }
@@ -20,7 +24,7 @@ provider "github" {
 resource "digitalocean_kubernetes_cluster" "app_cluster" {
   name    = var.cluster_name
   region  = var.region
-  version = "1.31.1-do.2" // find valid version with "doctl kubernetes options versions"
+  version = "1.31.1-do.3" // find valid version with "doctl kubernetes options versions"
   registry_integration = true
 
   node_pool {

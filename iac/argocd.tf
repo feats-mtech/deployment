@@ -1,7 +1,3 @@
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-}
-
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
@@ -19,6 +15,12 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   namespace  = kubernetes_namespace.argocd.metadata[0].name
+  version    = "5.13.2"
+
+  set {
+    name  = "installCRDs"
+    value = true
+  }
 
   set {
     name  = "server.service.type"
@@ -51,10 +53,12 @@ resource "kubernetes_secret" "argocd_tls_secret" {
     name      = "argocd-tls-cert"
     namespace = kubernetes_namespace.argocd.metadata[0].name
   }
-  data = {
-    "tls.crt" = filebase64("tls.crt")  # TLS certificate
-    "tls.key" = filebase64("tls.key")  # TLS private key
-  }
+  # data = {
+  #   "tls.crt" = filebase64("tls.crt")  # TLS certificate
+  #   "tls.key" = filebase64("tls.key")  # TLS private key
+  # }
+
+  # depends_on = [helm_release.argocd]
 }
 
 data "kubernetes_secret" "argocd_admin_password" {
@@ -70,6 +74,8 @@ data "kubernetes_service" "argocd_server" {
     name      = "argocd-server"
     namespace = kubernetes_namespace.argocd.metadata[0].name
   }
+
+  depends_on = [helm_release.argocd]
 }
 
 resource "github_repository_deploy_key" "argocd_repo_deploykey" {
@@ -111,6 +117,8 @@ resource "github_repository_webhook" "argocd" {
   active = true
 
   events = ["push"]
+
+  depends_on = [data.kubernetes_service.argocd_server]
 }
 
 resource "kubernetes_manifest" "argocd_application" {
@@ -126,11 +134,11 @@ resource "kubernetes_manifest" "argocd_application" {
       source = {
         repoURL        = var.deployment_repo_path
         targetRevision = "HEAD"
-        path           = "k8s/test"  # Directory in the repo containing Kubernetes manifests
+        path           = "k8s/test" # Directory in the repo containing Kubernetes manifests
       }
       destination = {
         server    = "https://kubernetes.default.svc"
-        namespace = "default"  # Namespace for deployment
+        namespace = "default"
       }
       syncPolicy = {
         automated = {
