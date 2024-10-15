@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS user_account(
 
 -- id is a running number...
 CREATE TABLE IF NOT EXISTS recipe(
-	id SERIAL,
+	id serial,
 	creator_id INTEGER not null,
-	name VARCHAR not null,
+	name VARCHAR not null UNIQUE, -- Add UNIQUE Constraints
 	image VARCHAR,
 	description VARCHAR,
 	cookingTimeInSec INTEGER not null,
@@ -33,9 +33,11 @@ CREATE TABLE IF NOT EXISTS recipe(
 	status INTEGER not null,
 	create_datetime TIMESTAMP WITH TIME ZONE not null,
 	update_datetime TIMESTAMP WITH TIME ZONE not null,
-
+	cuisine VARCHAR,
+	
   	primary key (id)
 );
+
 -- id is a running number...
 CREATE TABLE IF NOT EXISTS recipe_review(
 	id SERIAL,
@@ -55,8 +57,8 @@ CREATE TABLE IF NOT EXISTS recipe_cooking_step(
 	description VARCHAR not null,
 	image VARCHAR,
   	primary key (id,recipe_id)
-	
 );
+
 -- id is labelled manually, with recipe Id, both together is the primary key...
 CREATE TABLE IF NOT EXISTS recipe_ingredients(
 	id SERIAL,
@@ -79,3 +81,4 @@ CREATE TABLE IF NOT EXISTS user_ingredients(
 	update_datetime TIMESTAMP WITH TIME ZONE not null,
   	primary key (id)
 );
+
