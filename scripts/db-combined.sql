@@ -4,6 +4,7 @@ drop table if exists recipe_cooking_step;
 drop table if exists recipe_ingredients;
 drop table if exists user_ingredients;
 drop table if exists recipe_review;
+drop table if exists recipe_review;
 
 -- id is a running number...
 CREATE TABLE IF NOT EXISTS user_account(
@@ -80,5 +81,16 @@ CREATE TABLE IF NOT EXISTS user_ingredients(
 	create_datetime TIMESTAMP WITH TIME ZONE not null,
 	update_datetime TIMESTAMP WITH TIME ZONE not null,
   	primary key (id)
+);
+
+CREATE TABLE IF NOT EXISTS notification (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    type notification_type NOT NULL DEFAULT 'INFO',
+    is_read BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user_account(id)
 );
 
