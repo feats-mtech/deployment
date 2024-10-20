@@ -11,6 +11,12 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
+
 provider "digitalocean" {
   token = var.do_token
 }
@@ -33,6 +39,23 @@ resource "digitalocean_kubernetes_cluster" "app_cluster" {
     node_count = 3
   }
 }
+resource "helm_release" "argocd" {
+  name       = "argocd"
+  namespace  = "argocd"
+  chart      = "argo-cd"
+  repository = "https://argoproj.github.io/argo-helm"
+  version    = "5.27.4"
+  
+  create_namespace = true
+  
+  depends_on = [digitalocean_kubernetes_cluster.app_cluster]
+
+  set {
+    name  = "server.service.type"
+    value = "LoadBalancer"
+  }
+}
+
 
 # VPC for secure networking
 resource "digitalocean_vpc" "app_vpc" {
