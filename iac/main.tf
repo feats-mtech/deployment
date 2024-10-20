@@ -45,6 +45,16 @@ resource "helm_release" "argocd" {
   chart      = "argo-cd"
   repository = "https://argoproj.github.io/argo-helm"
   version    = "5.27.4"
+
+  set {
+    name  = "server.service.type"
+    value = "LoadBalancer"
+  }
+
+  set {
+    name  = "configs.argoServer.enableInsecure"
+    value = "true"  # Set to false in production
+  }
   
   create_namespace = true
   
