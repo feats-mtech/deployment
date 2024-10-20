@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: feats-frontend
-        image: registry.digitalocean.com/group3/feats-frontend:0.0.0
+        image: registry.digitalocean.com/group3/feats-frontend:1.0.1
         resources:
           requests:
             cpu: 250m
@@ -41,6 +41,7 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+      name: http
 
 ---
 apiVersion: v1
@@ -48,5 +49,6 @@ kind: ConfigMap
 metadata:
   name: feats-frontend-config
 data:
-  PORT: "3000"
-  HOST: "127.0.0.1"
+  VITE_PORT: "3000"
+  VITE_HOST: "127.0.0.1"
+  VITE_BACKEND_URL: "http://feats-backend:8089"
