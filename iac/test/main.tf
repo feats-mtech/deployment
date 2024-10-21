@@ -69,7 +69,7 @@ resource "helm_release" "argocd" {
 
 # VPC for secure networking
 resource "digitalocean_vpc" "app_vpc" {
-  name   = "app-vpc"
+  name   = "app-vpc-test"
   region = var.region
 }
 

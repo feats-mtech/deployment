@@ -37,7 +37,7 @@ variable "container_registry" {
 variable "cluster_name" {
   type        = string
   description = "DigitalOcean K8 Cluster name"
-  default     = "app-cluster"
+  default     = "app-cluster-test"
 }
 
 // DATABASE

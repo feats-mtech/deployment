@@ -61,7 +61,7 @@ spec:
     - protocol: TCP
       port: 8089
       targetPort: 8089
-  type: ClusterIP
+  type: LoadBalancer
 
 ---
 apiVersion: v1
