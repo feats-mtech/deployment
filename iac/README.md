@@ -12,7 +12,8 @@ Terraform is used to provision infrastructure through Infrastructure as Code (IA
 6. Check that the terraform files are valid with `terraform validate`.
 7. Run `terraform init` to perform backend initalisation, child module installation, and plugin installation.
 8. Run `terraform plan` to see the resources to be created.
-9. Run `terraform apply` to create/update the infrastructure. This step may take more than 10 minutes for a brand new creation. Subsequent runs will take a shorter duration as it relies on the `terraform.tfstate` to remember the infrastructure state.
+9. Run `terraform apply` to create/update the infrastructure. This step may take more than 10 minutes for a brand new creation. Subsequent runs will take a shorter duration as it relies on the `terraform.tfstate` to remember the infrastructure state. You may have to run `terraform apply` again if there are errors in the output.
+10. Change directory to `argocd` and run `terraform apply` to apply the ArgoCD services.
 
 ## Infrastructure
 
