@@ -1,9 +1,10 @@
-drop table if exists user_account;
+drop table if exists user_account cascade;
 drop table if exists recipe;
 drop table if exists recipe_cooking_step;
 drop table if exists recipe_ingredients;
 drop table if exists user_ingredients;
 drop table if exists recipe_review;
+drop table if exists notification;
 
 -- id is a running number...
 CREATE TABLE IF NOT EXISTS user_account(
@@ -80,5 +81,25 @@ CREATE TABLE IF NOT EXISTS user_ingredients(
 	create_datetime TIMESTAMP WITH TIME ZONE not null,
 	update_datetime TIMESTAMP WITH TIME ZONE not null,
   	primary key (id)
+);
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'notification_type') THEN
+        CREATE TYPE notification_type AS ENUM ('INFO', 'WARNING', 'ERROR');
+    END IF;
+END
+$$;
+
+CREATE TABLE IF NOT EXISTS notification (
+    id SERIAL,
+    user_id INTEGER not null,
+    title VARCHAR(255) not null,
+    content TEXT,
+    type notification_type not null default 'INFO',
+    is_read BOOLEAN not null default false,
+    create_datetime TIMESTAMP WITH TIME ZONE not null,
+    primary key (id),
+    foreign key (user_id) references user_account(id)
 );
 
