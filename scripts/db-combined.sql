@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS notification (
     content TEXT,
     type notification_type not null default 'INFO',
     is_read BOOLEAN not null default false,
-    created_datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    create_datetime TIMESTAMP WITH TIME ZONE not null,
     primary key (id),
     foreign key (user_id) references user_account(id)
 );
