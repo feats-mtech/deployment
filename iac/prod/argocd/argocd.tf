@@ -34,7 +34,7 @@ resource "kubernetes_secret_v1" "ssh_key" {
 }
 
 resource "github_repository_deploy_key" "argocd_repo_deploykey" {
-  title      = "argocd-connect-test"
+  title      = "argocd-connect"
   repository = "deployment"
   key        = file(var.ssh_public_key_path)
   read_only  = true
@@ -69,7 +69,7 @@ resource "kubernetes_manifest" "argocd_application" {
       source = {
         repoURL        = var.deployment_repo_path
         targetRevision = "HEAD"
-        path           = "k8s/test" # Directory in the repo containing Kubernetes manifests
+        path           = "k8s/prod" # Directory in the repo containing Kubernetes manifests
       }
       destination = {
         server    = "https://kubernetes.default.svc"

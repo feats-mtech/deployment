@@ -1,6 +1,6 @@
 # Allow inbound traffic to the Kubernetes Load Balancer
 resource "digitalocean_firewall" "app_firewall" {
-  name = "app-firewall-test"
+  name = "app-firewall"
 
   droplet_ids = [] # Optional, but leave empty for Kubernetes
 

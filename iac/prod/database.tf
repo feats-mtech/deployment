@@ -25,9 +25,9 @@ resource "null_resource" "init_db" {
   }
 }
 
-resource "digitalocean_database_replica" "postgresql_replica" {
-  cluster_id = digitalocean_database_cluster.postgresql.id
-  name       = "postgres-replica-test"
-  size       = "db-s-2vcpu-4gb"
-  region     = var.region
-}
+# resource "digitalocean_database_replica" "postgresql_replica" {
+#   cluster_id = digitalocean_database_cluster.postgresql.id
+#   name       = "postgres-replica"
+#   size       = "db-s-2vcpu-4gb"
+#   region     = var.region
+# }
