@@ -52,10 +52,3 @@ variable "db_username" {
   description = "Username for the PostgreSQL database"
   sensitive   = true
 }
-
-// GRAFANA
-variable "grafana_password" {
-  type        = string
-  description = "Password for Grafana dashboard"
-  sensitive   = true
-}

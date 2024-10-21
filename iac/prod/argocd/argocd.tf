@@ -69,7 +69,7 @@ resource "kubernetes_manifest" "argocd_application" {
       source = {
         repoURL        = var.deployment_repo_path
         targetRevision = "HEAD"
-        path           = "k8s/test" # Directory in the repo containing Kubernetes manifests
+        path           = "k8s/prod" # Directory in the repo containing Kubernetes manifests
       }
       destination = {
         server    = "https://kubernetes.default.svc"

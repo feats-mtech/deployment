@@ -23,31 +23,31 @@ spec:
         env:
         - name: POSTGRES_HOST
           value: postgres
-        - name: POSTGRES_K8_TEST_USER
+        - name: POSTGRES_K8_PROD_USER
           valueFrom:
             secretKeyRef:
               name: feats-backend-secret
-              key: POSTGRES_K8_TEST_USER
-        - name: POSTGRES_K8_TEST_PASSWORD
+              key: POSTGRES_K8_PROD_USER
+        - name: POSTGRES_K8_PROD_PASSWORD
           valueFrom:
             secretKeyRef:
               name: feats-backend-secret
-              key: POSTGRES_K8_TEST_PASSWORD
+              key: POSTGRES_K8_PROD_PASSWORD
         - name: POSTGRES_DB
           valueFrom:
             secretKeyRef:
               name: feats-backend-secret
               key: POSTGRES_DB
-        - name: POSTGRES_K8_TEST_PORT
+        - name: POSTGRES_K8_PROD_PORT
           valueFrom:
             secretKeyRef:
               name: feats-backend-secret
-              key: POSTGRES_K8_TEST_PORT
-        - name: POSTGRES_K8_TEST_IP
+              key: POSTGRES_K8_PROD_PORT
+        - name: POSTGRES_K8_PROD_IP
           valueFrom:
             secretKeyRef:
               name: feats-backend-secret
-              key: POSTGRES_K8_TEST_IP
+              key: POSTGRES_K8_PROD_IP
 
 ---
 apiVersion: v1

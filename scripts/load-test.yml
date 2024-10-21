@@ -1,0 +1,114 @@
+###### COMMENTS FROM PINARDY ######
+# Load tests are meant to be run against the backend server
+# We are not supposed to call the frontend at all
+
+# The backend server is running on port 8089, so the target should be http://localhost:8089
+# We do not need multiple ports. We can just make requests against the target (defined under config)
+# We can use the same port for all requests
+
+# For now, just try to make GET requests to the backend server and successfully run the load test correctly
+# Do not write everything out without testing it against your local backend server
+# You NEED to test it against your local backend server to verify that it is working
+####################################
+
+config:
+  target: http://localhost:8089
+  http:
+    timeout: 30
+  phases:
+    - duration: 30    
+      name: Warm up phase
+      arrivalRate: 5
+      rampTo: 20
+    - duration: 30
+      arrivalRate: 20
+      rampTo: 50
+      name: Ramp up load
+    - duration: 60
+      arrivalRate : 50
+      rampTo: 100
+      name: Spike phase
+
+  variables:
+    ids: ["1", "2", "3", "4"]  # test ID
+
+scenarios:
+  - name: "User CRUD"
+    flow:
+      - get:
+          url: ":{{ backend1_port }}/user/getAll"
+          capture:
+            - json: "$.users[*].id"
+              as: "users_ids"
+      - get:
+          url: ":{{ backend1_port }}/user/add/{{ users_ids[$randomInt(0, users_ids.length)] }}"  
+      # - post:
+      #     url: ":{{ backend1_port }}/user/update/{{ users_ids[$randomInt(0, users_ids.length)] }}"
+      #     json:
+      #       name: "New User"
+      #       email: "newuser@example.com"
+      # - delete:
+      #   url: ":{{ backend1_port }}/user/delete/{{ users_ids[$randomInt(0, users_ids.length)] }}" 
+      #   json:
+      #     username: "user"
+      #     passowrd: "pwd"
+
+  - name: "Ingredients CRUD"
+    flow:
+      - get:
+          url: ":{{ backend1_port }}/ingredient/getAll/{{ users_ids[$randomInt(0, users_ids.length)] }}"
+          capture:
+            - json: "$.items[*].id"
+              as: "items_ids"
+      - get:
+          url: ":{{ backend1_port }}/ingredient/add/{{ items_ids[$randomInt(0, items_ids.length)] }}"  
+      # - post:
+      #     url: ":{{ backend1_port }}/ingredient/update/{{ items_ids[$randomInt(0, items_ids.length)] }}"
+      # - delete:
+      #     url: ":{{ backend1_port }}/ingredient/delete/{{ items_ids[$randomInt(0, items_ids.length)] }}"   
+
+
+  - name: "Recipes CRUD"
+    flow:
+      - get:  # get all recipe
+          url: ":{{ backend1_port }}/recipe"
+          capture:
+            - json: "$.recipes[*].id"
+              as: "recipes_ids"
+      - get:  # get recipe by id
+        url: ":{{ backend1_port }}/recipe/{{ recipes_ids[$randomInt(0, recipes_ids.length)] }}"
+
+      - get:  # get all published recipe
+          url: ":{{ backend1_port }}/recipe/published"
+      # - post:   # add new recipe
+      #     url: ":{{ backend1_port }}/recipe"
+      #     json:
+      #       name: "Tomato Soup"
+      #       ingredients:
+      #         - name: "Tomato"
+      #           quantity: 2   
+
+      # - get:  # search recipe by name
+      #     url: ":{{ backend1_port }}/recipe/search?name={recipeName}"  
+      - get:  # get recipe by user
+          url: ":{{ backend1_port }}/recipe/creator/{{ users_ids[$randomInt(0, users_ids.length)] }}"
+          
+      # - put:
+      #     url: ":{{ backend1_port }}/recipe/{{ recipes_ids[$randomInt(0, recipes_ids.length)] }}"            
+      #     json:
+      #       name: "Tomato Soup"
+      #       ingredients:
+      #         - name: "Tomato"
+      #           quantity: 3  
+      # - delete:
+      #     url: ":{{ backend1_port }}/recipe/{{ recipes_ids[$randomInt(0, recipes_ids.length)] }}"
+
+
+  # plugins:
+  #   ensure:
+  #     thresholds:
+  #       - http.response_time.p99: 100  # 99%的请求响应时间不超过 100ms
+  #       - http.response_time.p95: 75   # 95%的请求响应时间不超过 75ms
+  #   apdex:
+  #     threshold: 100  # 计算 Apdex 指数，响应时间小于 100ms 认为是满意
+  #   metrics-by-endpoint: {}  # 启用每个端点的度量
