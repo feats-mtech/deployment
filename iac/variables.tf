@@ -16,15 +16,6 @@ variable "github_username" {
   sensitive   = true
 }
 
-variable "ssh_private_key_path" {
-  type        = string
-  description = "SSH Private Key Path"
-}
-variable "ssh_public_key_path" {
-  type        = string
-  description = "SSH Public Key Path"
-}
-
 variable "deployment_repo_path" {
   type        = string
   description = "Deployment Repo Path"
@@ -59,5 +50,12 @@ variable "db_name" {
 variable "db_username" {
   type        = string
   description = "Username for the PostgreSQL database"
+  sensitive   = true
+}
+
+// GRAFANA
+variable "grafana_password" {
+  type        = string
+  description = "Password for Grafana dashboard"
   sensitive   = true
 }
