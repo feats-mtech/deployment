@@ -29,10 +29,11 @@ docker-compose up -d
 docker-compose down
 ```
 
-### load test
+### Load Test
+
+[Artillery](https://artillery.io/) is used as the tool for load testing. Ensure that Artillery is [installed](https://www.artillery.io/docs/get-started/get-artillery) before running the script below.
 
 ```sh
-# starts up artillery
 artillery run load-test.yml
 ```
 
