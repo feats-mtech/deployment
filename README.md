@@ -42,3 +42,24 @@ artillery run load-test.yml
 Continuous Deployment is done using [ArgoCD](https://argo-cd.readthedocs.io/en/stable/).
 
 This repository is the target repository for both [frontend](https://github.com/mtechse-dmss-capstone/frontend) and [backend](https://github.com/mtechse-dmss-capstone/backend) to update the image versions of the kubernetes YML files. Upon a successful merge of a pull request to the main branch in the frontend/backend repository, the CI pipeline will update the image version of the kubernetes YML files in this repository. There will be an ArgoCD agent in the kubernetes cluster on hosted on DigitalOcean which listens to version changes in this repository. 
+
+### Promotion to Production
+
+The Continuous Delivery pipeline for promoting to production will be run after the CI pipelines for backend and frontend are executed to update the image versions in the Kubernetes manifest files in this repository under the `k8s/test` folder. At the point where the CD pipeline is run, the DigitalOcean environment would have the latest applications already running.
+
+The promotion to production CD pipeline does the following:
+
+```mermaid
+flowchart LR
+    A[Run load test] --> B[Run E2E tests]
+    B --> C[Update prod image versions]
+```
+
+- The pipeline will be manually triggered, after ArgoCD has synced the applications onto the DigitalOcean test environment.
+- Pipeline runs load test script against deployed backend on test environment
+    - script needs to pass our set threshold to proceed (e.g. 99% http 200, request duration below 100ms)
+- Pipeline runs end-to-end tests against the deployed frontend on test environment
+    - script needs to pass all defined test cases
+- Once load test and e2e tests pass, allow for manual trigger to promote to production environment
+- Only the admin is able to promote to production environment (i.e. normal developers not able to promote)
+- The ArgoCD agent deployed in the production environment will listen to the changes inside the repository’s k8s/prod folder and deploy the latest application to the production environment accordingly
