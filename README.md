@@ -29,6 +29,13 @@ docker-compose up -d
 docker-compose down
 ```
 
+### load test
+
+```sh
+# starts up artillery
+artillery run load-test.yml
+```
+
 ## Continuous Delivery
 
 Continuous Deployment is done using [ArgoCD](https://argo-cd.readthedocs.io/en/stable/).
