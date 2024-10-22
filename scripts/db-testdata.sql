@@ -24,3 +24,14 @@ VALUES
   (3, 'Beef Tacos', 'tacos.jpg', 'Mexican beef tacos with fresh salsa', 900, 2, 4.7, 1, NOW(), NOW(), 'Mexican'),
   (4, 'Vegetarian Pizza', 'veggie_pizza.jpg', 'Pizza topped with fresh vegetables', 1500, 2, 4.4, 1, NOW(), NOW(), 'Italian');
 
+
+INSERT INTO notification (user_id, title, content, type, is_read, create_datetime) 
+VALUES 
+  (1, 'Expiration Notice', 'Your Sugar will expire in 3 days. Please use it soon.', 'INFO', false, NOW()),
+  (1, 'Expiration Alert', 'Your Flour will expire in 1 day! Please use it immediately.', 'INFO', false, NOW()),
+  (2, 'Expiration Notice', 'Your Chicken Breast will expire in 3 days. Please consume soon.', 'INFO', false, NOW()),
+  (2, 'Expiration Alert', 'Your Curry Powder will expire in 1 day! Please use it immediately.', 'INFO', false, NOW()),
+  (3, 'Expiration Notice', 'Your Beef will expire in 3 days. Please cook soon.', 'INFO', false, NOW()),
+  (3, 'Expiration Alert', 'Your Tortilla will expire in 1 day! Please consume immediately.', 'INFO', false, NOW()),
+  (4, 'Expiration Notice', 'Your Mozzarella Cheese will expire in 3 days. Please use it soon.', 'INFO', false, NOW()),
+  (4, 'Expiration Alert', 'Your Bell Peppers will expire in 1 day! Please consume immediately.', 'INFO', false, NOW());
