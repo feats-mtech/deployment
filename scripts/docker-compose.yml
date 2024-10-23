@@ -13,9 +13,10 @@ services:
     ports:
       - "8089:8089"
     env_file:
-      - ../.env
+      - .env
     depends_on:
       - db
+
   backend_ingredient:
     image: feats-backend:latest
     container_name: feats-backend-ingredient
@@ -28,9 +29,10 @@ services:
     ports:
       - "8090:8089"
     env_file:
-      - ../.env
+      - .env
     depends_on:
       - db
+
   backend_recipe:
     image: feats-backend:latest
     container_name: feats-backend-recipe
@@ -43,9 +45,10 @@ services:
     ports:
       - "8091:8089"
     env_file:
-      - ../.env
+      - .env
     depends_on:
       - db
+
   backend_user:
     image: feats-backend:latest
     container_name: feats-backend-user
@@ -58,17 +61,17 @@ services:
     ports:
       - "8092:8089"
     env_file:
-      - ../.env
+      - .env
     depends_on:
       - db
 
-#  frontend:
-#    image: feats-frontend:latest
-#    container_name: feats-frontend
-#    ports:
-#      - "3000:80"
-#    depends_on:
-#      - backend_authenticate
+  frontend:
+    image: feats-frontend:latest
+    container_name: feats-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend_authenticate
 
   db:
     image: postgres:latest
