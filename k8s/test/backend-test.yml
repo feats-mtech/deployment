@@ -1,65 +1,263 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: feats-backend
+  name: feats-backend-authenticate
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: feats-backend
+      app: feats-backend-authenticate
   template:
     metadata:
       labels:
-        app: feats-backend
+        app: feats-backend-authenticate
     spec:
       containers:
-      - name: feats-backend
-        image: registry.digitalocean.com/group3/feats-backend:1.0.1
-        ports:
-        - containerPort: 8089 
-        envFrom:
-        - configMapRef:
-            name: feats-backend-config
-        env:
-        - name: POSTGRES_HOST
-          value: postgres
-        - name: POSTGRES_K8_TEST_USER
-          valueFrom:
-            secretKeyRef:
-              name: feats-backend-secret
-              key: POSTGRES_K8_TEST_USER
-        - name: POSTGRES_K8_TEST_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: feats-backend-secret
-              key: POSTGRES_K8_TEST_PASSWORD
-        - name: POSTGRES_DB
-          valueFrom:
-            secretKeyRef:
-              name: feats-backend-secret
-              key: POSTGRES_DB
-        - name: POSTGRES_K8_TEST_PORT
-          valueFrom:
-            secretKeyRef:
-              name: feats-backend-secret
-              key: POSTGRES_K8_TEST_PORT
-        - name: POSTGRES_K8_TEST_IP
-          valueFrom:
-            secretKeyRef:
-              name: feats-backend-secret
-              key: POSTGRES_K8_TEST_IP
+        - name: feats-backend-authenticate
+          image: registry.digitalocean.com/group3/feats-backend:latest
+          ports:
+          - containerPort: 8089
+          envFrom:
+          - configMapRef:
+              name: feats-backend-config
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: k8test,authenticate
+          - name: POSTGRES_K8_TEST_USER
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_USER
+          - name: POSTGRES_K8_TEST_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_PASSWORD
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_DB
+          - name: POSTGRES_K8_TEST_PORT
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_PORT
+          - name: POSTGRES_K8_TEST_IP
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_IP
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feats-backend-ingredient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feats-backend-ingredient
+  template:
+    metadata:
+      labels:
+        app: feats-backend-ingredient
+    spec:
+      containers:
+        - name: feats-backend-ingredient
+          image: registry.digitalocean.com/group3/feats-backend:latest
+          ports:
+          - containerPort: 8090
+          envFrom:
+          - configMapRef:
+              name: feats-backend-config
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: k8test,ingredient
+          - name: POSTGRES_K8_TEST_USER
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_USER
+          - name: POSTGRES_K8_TEST_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_PASSWORD
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_DB
+          - name: POSTGRES_K8_TEST_PORT
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_PORT
+          - name: POSTGRES_K8_TEST_IP
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_IP
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feats-backend-recipe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feats-backend-recipe
+  template:
+    metadata:
+      labels:
+        app: feats-backend-recipe
+    spec:
+      containers:
+        - name: feats-backend-recipe
+          image: registry.digitalocean.com/group3/feats-backend:latest
+          ports:
+          - containerPort: 8091
+          envFrom:
+          - configMapRef:
+              name: feats-backend-config
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: k8test,recipe
+          - name: POSTGRES_K8_TEST_USER
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_USER
+          - name: POSTGRES_K8_TEST_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_PASSWORD
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_DB
+          - name: POSTGRES_K8_TEST_PORT
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_PORT
+          - name: POSTGRES_K8_TEST_IP
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_IP
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feats-backend-user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feats-backend-user
+  template:
+    metadata:
+      labels:
+        app: feats-backend-user
+    spec:
+      containers:
+        - name: feats-backend-user
+          image: registry.digitalocean.com/group3/feats-backend:latest
+          ports:
+          - containerPort: 8092
+          envFrom:
+          - configMapRef:
+              name: feats-backend-config
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: k8test,user
+          - name: POSTGRES_K8_TEST_USER
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_USER
+          - name: POSTGRES_K8_TEST_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_PASSWORD
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_DB
+          - name: POSTGRES_K8_TEST_PORT
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_PORT
+          - name: POSTGRES_K8_TEST_IP
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: POSTGRES_K8_TEST_IP
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: feats-backend-authenticate
+spec:
+  selector:
+    app: feats-backend-authenticate
+  ports:
+    - protocol: TCP
+      port: 8089 # external port to be exposed
+      targetPort: 8089
+  type: LoadBalancer
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: feats-backend
+  name: feats-backend-ingredient
 spec:
   selector:
-    app: feats-backend
+    app: feats-backend-ingredient
   ports:
     - protocol: TCP
-      port: 8089
+      port: 8090 # external port to be exposed
+      targetPort: 8089
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feats-backend-recipe
+spec:
+  selector:
+    app: feats-backend-recipe
+  ports:
+    - protocol: TCP
+      port: 8091 # external port to be exposed
+      targetPort: 8089
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feats-backend-user
+spec:
+  selector:
+    app: feats-backend-user
+  ports:
+    - protocol: TCP
+      port: 8092 # external port to be exposed
       targetPort: 8089
   type: LoadBalancer
 
@@ -69,4 +267,11 @@ kind: ConfigMap
 metadata:
   name: feats-backend-config
 data:
-  SPRING_PROFILES_ACTIVE: "k8test"
+  service.url.authenticate.port: "8089"
+  service.url.ingredient.port: "8090"
+  service.url.recipe.port: "8091"
+  service.url.user.port: "8092"
+  service.url.authenticate.address: "feats-backend-authenticate"
+  service.url.ingredient.address: "feats-backend-ingredient"
+  service.url.recipe.address: "feats-backend-recipe"
+  service.url.user.address: "feats-backend-user"
