@@ -27,14 +27,6 @@ VALUES
   (4, 'Expiration Notice', 'Your Mozzarella Cheese will expire in 3 days. Please use it soon.', 'INFO', false, NOW()),
   (4, 'Expiration Alert', 'Your Bell Peppers will expire in 1 day! Please consume immediately.', 'INFO', false, NOW());
 
-
-INSERT INTO recipe (creator_id, name, image, description, cookingTimeInSec, difficultyLevel, rating, status, create_datetime, update_datetime, cuisine)
-VALUES
-  (1, 'Spaghetti Carbonara', 'carbonara.jpg', 'Classic Italian pasta dish', 1200, 2, 4.5, 1, NOW(), NOW(), 'Italian'),
-  (2, 'Chicken Tikka Masala', 'tikka_masala.jpg', 'Spicy and flavorful chicken curry', 1800, 3, 4.8, 1, NOW(), NOW(), 'Indian'),
-  (3, 'Beef Tacos', 'tacos.jpg', 'Mexican beef tacos with fresh salsa', 900, 2, 4.7, 1, NOW(), NOW(), 'Mexican'),
-  (4, 'Vegetarian Pizza', 'veggie_pizza.jpg', 'Pizza topped with fresh vegetables', 1500, 2, 4.4, 1, NOW(), NOW(), 'Italian');
-
 -- Insert all recipe records  
 INSERT INTO recipe (creator_id, name, image, description, cookingTimeInSec, difficultyLevel, rating, status, cuisine, create_datetime, update_datetime)   
 VALUES  

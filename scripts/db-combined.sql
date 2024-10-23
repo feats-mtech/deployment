@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS user_account(
 CREATE TABLE IF NOT EXISTS recipe(
 	id serial,
 	creator_id INTEGER not null,
-	name VARCHAR not null UNIQUE, -- Add UNIQUE Constraints
+	name VARCHAR not null,
 	image VARCHAR,
 	description VARCHAR,
 	cookingTimeInSec INTEGER not null,
