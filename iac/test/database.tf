@@ -21,6 +21,7 @@ resource "null_resource" "init_db" {
   provisioner "local-exec" {
     command = <<EOT
       psql "host=${digitalocean_database_cluster.postgresql.host} port=25060 user=${var.db_username} password=${digitalocean_database_user.db_user.password} dbname=defaultdb" -f ${path.module}/../../scripts/db-combined.sql
+      psql "host=${digitalocean_database_cluster.postgresql.host} port=25060 user=${var.db_username} password=${digitalocean_database_user.db_user.password} dbname=defaultdb" -f ${path.module}/../../scripts/db-testdata.sql
     EOT
   }
 }

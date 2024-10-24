@@ -1,9 +1,9 @@
 INSERT INTO user_account (name, password, display_name, email, status, role, create_datetime, update_datetime)
 VALUES
-  ('john_doe', 'password123', 'John Doe', 'john.doe@example.com', 1, 1, NOW(), NOW()),
-  ('jane_smith', 'securePass456', 'Jane Smith', 'jane.smith@example.com', 1, 2, NOW(), NOW()),
-  ('bob_lee', 'bobPass789', 'Bob Lee', 'bob.lee@example.com', 1, 1, NOW(), NOW()),
-  ('alice_wonder', 'alicePass123', 'Alice Wonder', 'alice.wonder@example.com', 1, 2, NOW(), NOW());
+  ('john_doe', '$2a$10$X5eEvupGrg2EWcKh7yeetOcPPYe3z6c3kQlFvgzpRVaTXEdmLAkoK', 'John Doe', 'john.doe@example.com', 1, 1, NOW(), NOW()),
+  ('jane_smith', '$2a$10$X5eEvupGrg2EWcKh7yeetOcPPYe3z6c3kQlFvgzpRVaTXEdmLAkoK', 'Jane Smith', 'jane.smith@example.com', 1, 2, NOW(), NOW()),
+  ('bob_lee', '$2a$10$X5eEvupGrg2EWcKh7yeetOcPPYe3z6c3kQlFvgzpRVaTXEdmLAkoK', 'Bob Lee', 'bob.lee@example.com', 1, 1, NOW(), NOW()),
+  ('alice_wonder', '$2a$10$X5eEvupGrg2EWcKh7yeetOcPPYe3z6c3kQlFvgzpRVaTXEdmLAkoK', 'Alice Wonder', 'alice.wonder@example.com', 1, 2, NOW(), NOW());
 
 INSERT INTO user_ingredients (user_id, name, quantity, uom, expiry_date, create_datetime, update_datetime)
 VALUES
