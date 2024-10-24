@@ -30,10 +30,10 @@ VALUES
 -- Insert all recipe records  
 INSERT INTO recipe (creator_id, name, image, description, cookingTimeInSec, difficultyLevel, rating, status, cuisine, create_datetime, update_datetime)   
 VALUES  
-    (101, 'Kung Pao Chicken', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/gongbaojiding.jpg', 'Classic Sichuan dish, spicy and flavorful.', 1800, 2, 4.7, 1, 'Chinese', NOW(), NOW()),  
-    (102, 'Tomato and Egg Stir-fry', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/fanqiechaodan.jpg', 'Homestyle delicacy, simple and easy to make.', 900, 1, 4.5, 1, 'Chinese', NOW(), NOW()),  
-    (103, 'Red Braised Pork', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/hongshaorou.jpg', 'Glossy red color, rich but not greasy.', 7200, 3, 4.8, 1, 'Chinese', NOW(), NOW()),  
-    (104, 'Mapo Tofu', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/mapodoufu.jpg', 'Spicy and aromatic, with silky soft tofu.', 1500, 2, 4.6, 1, 'Chinese', NOW(), NOW()),  
+    (1, 'Kung Pao Chicken', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/gongbaojiding.jpg', 'Classic Sichuan dish, spicy and flavorful.', 1800, 2, 4.7, 1, 'Chinese', NOW(), NOW()),  
+    (1, 'Tomato and Egg Stir-fry', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/fanqiechaodan.jpg', 'Homestyle delicacy, simple and easy to make.', 900, 1, 4.5, 1, 'Chinese', NOW(), NOW()),  
+    (1, 'Red Braised Pork', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/hongshaorou.jpg', 'Glossy red color, rich but not greasy.', 7200, 3, 4.8, 1, 'Chinese', NOW(), NOW()),  
+    (1, 'Mapo Tofu', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/mapodoufu.jpg', 'Spicy and aromatic, with silky soft tofu.', 1500, 2, 4.6, 1, 'Chinese', NOW(), NOW()),  
     (105, 'Fish-flavored Eggplant', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/yuxiangqiezi.jpg', 'Sweet and sour, with tender eggplant.', 1200, 2, 4.5, 1, 'Chinese', NOW(), NOW()),  
     (106, 'Steamed Sea Bass', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/qingzhengluyu.jpg', 'Preserves the fish''s natural flavor, healthy and delicious.', 2400, 2, 4.9, 1, 'Chinese', NOW(), NOW()),  
     (107, 'Hot and Sour Soup', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/suanlaitan.jpg', 'Tangy and spicy, rich in nutrients.', 1800, 2, 4.4, 1, 'Chinese', NOW(), NOW()),  
