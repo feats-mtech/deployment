@@ -1,11 +1,10 @@
 name: fEATs CD pipeline
 
 on:
+  pull_request:
   push:
-  # pull_request:
-  # push:
-  #   branches:
-  #     - main
+    branches:
+      - main
   workflow_dispatch: # Allows manual triggers
 
 jobs:
@@ -81,57 +80,67 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+
+    env:
+      FRONTEND_IMAGE_VERSION: ''
+      BACKEND_IMAGE_VERSION: ''
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Find current test images versions
+        working-directory: k8s/test
+        shell: bash
         run: |
-          cd k8s/test
           FRONTEND_IMAGE_VERSION=$(grep -oP '(?<=image: registry.digitalocean.com/group3/feats-frontend:)[^ ]*' frontend-test.yml)
-          BACKEND_IMAGE_VERSION=$(grep -oP '(?<=image: registry.digitalocean.com/group3/feats-backend:)[^ ]*' backend-test.yml)
-          echo "Current frontend image version: $FRONTEND_IMAGE_VERSION"
-          echo "Current backend image version: $BACKEND_IMAGE_VERSION"
-          env:
-            FRONTEND_IMAGE_VERSION: $FRONTEND_IMAGE_VERSION
-            BACKEND_IMAGE_VERSION: $BACKEND_IMAGE_VERSION
 
-      - name: Update image version for test in Kubernetes YML
-        # if: github.ref == 'refs/heads/main'
+          # get only the first occurrence because of microservices
+          BACKEND_IMAGE_VERSION=$(grep -m 1 -oP '(?<=image: registry.digitalocean.com/group3/feats-backend:)[^ ]*' backend-test.yml)
+
+          if [[ -z "$FRONTEND_IMAGE_VERSION" || -z "$BACKEND_IMAGE_VERSION" ]]; then
+            echo "Error: Unable to extract image versions."
+            exit 1
+          fi
+          echo "Current frontend image version: $FRONTEND_IMAGE_VERSION"
+          echo "FRONTEND_IMAGE_VERSION=$FRONTEND_IMAGE_VERSION" >> $GITHUB_ENV
+
+          echo "Current backend image version: $BACKEND_IMAGE_VERSION"
+          echo "BACKEND_IMAGE_VERSION=$BACKEND_IMAGE_VERSION" >> $GITHUB_ENV
+
+      - name: Update image versions for prod in Kubernetes YML
+        working-directory: k8s/prod
+        if: github.ref == 'refs/heads/main'
         run: |
-          cd k8s/test
-          sed -i "s|image: registry.digitalocean.com/group3/feats-frontend:[^ ]*|image: registry.digitalocean.com/group3/feats-frontend:$FRONTEND_IMAGE_VERSION|" frontend-test.yml
-          sed -i "s|image: registry.digitalocean.com/group3/feats-backend:[^ ]*|image: registry.digitalocean.com/group3/feats-backend:$BACKEND_IMAGE_VERSION|" backend-test.yml
-          cat frontend-test.yml
-          cat backend-test.yml
-          echo "Updated the image version in frontend-test.yml to $FRONTEND_IMAGE_VERSION"
-          echo "Updated the image version in backend-test.yml to $BACKEND_IMAGE_VERSION"
+          sed -i "s|image: registry.digitalocean.com/group3/feats-frontend:[^ ]*|image: registry.digitalocean.com/group3/feats-frontend:$FRONTEND_IMAGE_VERSION|" frontend-prod.yml
+          sed -i "s|image: registry.digitalocean.com/group3/feats-backend:[^ ]*|image: registry.digitalocean.com/group3/feats-backend:$BACKEND_IMAGE_VERSION|" backend-prod.yml
+          echo "Updated the image version in frontend-prod.yml to $FRONTEND_IMAGE_VERSION"
+          echo "Updated the image version in backend-prod.yml to $BACKEND_IMAGE_VERSION"
         env:
           FRONTEND_IMAGE_VERSION: ${{ env.FRONTEND_IMAGE_VERSION }}
           BACKEND_IMAGE_VERSION: ${{ env.BACKEND_IMAGE_VERSION }}
 
       - name: Commit changes to the deployment repository
-        # if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         run: |
-          cd deployment
           echo "Current directory: $(pwd)"
           git config --global user.email "pinardy.yang@gmail.com"
           git config --global user.name "GitHub Action"
           git add k8s/prod/frontend-prod.yml
-          git commit -m "[frontend-prod] update image version to ${{ env.IMAGE_VERSION }}"
+          git commit -m "[frontend-prod] update image version to ${{ env.FRONTEND_IMAGE_VERSION }}"
           git add k8s/prod/backend-prod.yml
-          git commit -m "[backend-prod] update image version to ${{ env.IMAGE_VERSION }}"
+          git commit -m "[backend-prod] update image version to ${{ env.BACKEND_IMAGE_VERSION }}"
         env:
-          IMAGE_VERSION: ${{ steps.package-version.outputs.current-version}}
+          FRONTEND_IMAGE_VERSION: ${{ env.FRONTEND_IMAGE_VERSION }}
+          BACKEND_IMAGE_VERSION: ${{ env.BACKEND_IMAGE_VERSION }}
 
       - name: Pushes to deployment repository
-        # if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
-          source-directory: './deployment'
+          source-directory: './'
           destination-github-username: 'dmss-group3-practice-module'
           destination-repository-name: 'deployment'
           user-email: pinardy.yang@gmail.com
