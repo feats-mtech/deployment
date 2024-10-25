@@ -8,6 +8,7 @@ export default defineConfig({
   testDir: '.',
   timeout: 30000,
   retries: 2,
+  reporter: [['html', { outputFolder: 'test-results' }]],
   use: {
     headless: true,
     baseURL: process.env.TEST_URL ? process.env.TEST_URL : 'http://localhost:3000',

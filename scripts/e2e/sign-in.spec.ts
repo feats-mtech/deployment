@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Sign In Page Tests', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/sign-in');
+    await page.goto('/'); // redirects to sign-in page
   });
 
   test('Display required login form fields', async ({ page }) => {

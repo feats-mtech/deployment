@@ -3,7 +3,9 @@ import { EMAIL, USERNAME } from './test-utils';
 
 test.describe('Registration Page Tests', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/register');
+    await page.goto('/');
+    await page.click('text=Get started'); // navigate to register
+    // await page.goto('/register');
   });
 
   test('Display all required form fields', async ({ page }) => {
