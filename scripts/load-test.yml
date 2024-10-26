@@ -26,6 +26,9 @@ config:
       arrivalRate: 20
       rampTo: 30
       name: Spike phase
+  ensure:
+    - maxErrors: 10
+    - maxResponseTime: 2000
 
 scenarios:
   - name: "Ingredient CRUD"
