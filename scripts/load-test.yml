@@ -1,93 +1,75 @@
+#### read ####
+# test connect or start use phases warm up phase, or use all phases
+# finish ingredient, marked ✅ means pass test.
+# before start, make sure there are exactly data with the id you want to test.
+# can use ./db-testdata.sql to init some data.
+# $randomNumber(start, end) can adjust number to test
+# update needing all fields and send object with post, worth improvement.
+# it will return failure when update or delete data not in db table, which is normal.
+
 config:
-  target: http://localhost:8089
+  target: "{{$processEnvironment.INGREDIENT_BACKEND_URL}}"
   http:
     timeout: 30
-    retries: 2  # most twice when failed
+    retries: 2
+    logLevel: info
   phases:
-    # - duration: 60    
-    #   arrivalRate: 1     # requests per sec
-    #   rampTo: 5
-    #   name: Warm up phase
-    - duration: 60
+    - duration: 20
+      arrivalRate: 1
+      rampTo: 5
+      name: Warm up phase
+    - duration: 20
       arrivalRate: 5
-      rampTo: 10
+      rampTo: 20
       name: Ramp up load
-    - duration: 30
-      arrivalRate: 10
+    - duration: 20
+      arrivalRate: 20
       rampTo: 30
       name: Spike phase
-
-various:
-  ids: [1, 2, 3, 4]
+  ensure:
+    - maxErrors: 10
+    - maxResponseTime: 2000
 
 scenarios:
-  # - name: "Admin User CRUD"
-  #   flow:
-  #     - get:
-  #         url: "/user/getAll"
-  #         capture:
-  #           - json: "$.user[*].id"
-  #             as: "user_ids"
-  #     - get:
-  #         url: "/user/add/{{ users_ids[$randomInt(0, users_ids.length)] }}"  
-      # - post:
-      #     url: "/user/update/{{ users_ids[$randomInt(0, users_ids.length)] }}"
-      #     json:
-      #       name: "New User"
-      #       email: "newuser@example.com"
-      # - delete:
-      #   url: "/user/delete/{{ users_ids[$randomInt(0, users_ids.length)] }}" 
-      #   json:
-      #     username: "user"
-      #     passowrd: "pwd"
-
-  - name: "User Ingredients CRUD"
+  - name: "Ingredient CRUD"
     flow:
       - get:
-          # url: "/ingredient/getAll/{{ user_ids[$randomInt(0, user_ids.length)] }}"
-          url: "/ingredient/getAll/{{ various.ids[$randomInt(0, 4)] }}"
-          capture:
-            - json: "$.item[*].id"
-              as: "item_ids"
-      # - get:
-      #     url: "/ingredient/add/{{ items_ids[$randomInt(0, items_ids.length)] }}"  
+          url: "/ingredient/getAll/{{ $randomNumber(1, 4) }}"
+          weight: 5
+
+      - get:
+          url: "/ingredient/get/{{ $randomNumber(1, 4) }}"
+          weight: 3   
+
+      # add ingredient, medium weight
       # - post:
-      #     url: "/ingredient/update/{{ items_ids[$randomInt(0, items_ids.length)] }}"
-      # - delete:
-      #     url: "/ingredient/delete/{{ items_ids[$randomInt(0, items_ids.length)] }}"   
-
-
-  # - name: "User Recipes CRUD"
-  #   flow:
-  #     - get:  # get all recipe
-  #         url: "/recipe"
-  #         capture:
-  #           - json: "$.recipes[*].id"
-  #             as: "recipes_ids"
-      # - get:  # get recipe by id
-      #   url: "/recipe/{{ recipes_ids[$randomInt(0, recipes_ids.length)] }}"
-
-      # - get:  # get all published recipe
-      #     url: "/recipe/published"
-      # - post:   # add new recipe
-      #     url: "/recipe"
+      #     url: "/ingredient/add"
+      #     headers:
+      #       Content-Type: "application/json"
       #     json:
-      #       name: "Tomato Soup"
-      #       ingredients:
-      #         - name: "Tomato"
-      #           quantity: 2   
+      #       userId: "{{ $randomNumber(1, 5) }}"
+      #       name: "{{ name }}"
+      #       quantity: "{{ $randomNumber(1, 3) }}"
+      #       uom: "{{ uom }}"
+      #       expiryDate: "{{ expiry_date }}"
+      #     weight: 3   
+      # ✅
 
-      # - get:  # search recipe by name
-      #     url: "/recipe/search?name={recipeName}"  
-      # - get:  # get recipe by user
-      #     url: "/recipe/creator/{{ users_ids[$randomInt(0, users_ids.length)] }}"
-          
-      # - put:
-      #     url: "/recipe/{{ recipes_ids[$randomInt(0, recipes_ids.length)] }}"            
+      # update ingredient, low weight
+      # - post:
+      #     url: "/ingredient/update"
       #     json:
-      #       name: "Tomato Soup"
-      #       ingredients:
-      #         - name: "Tomato"
-      #           quantity: 3  
+      #       id: "{{ $randomNumber(10, 15) }}"
+      #       userId: "{{ $randomNumber(1, 5) }}"
+      #       name: "{{ name }}"
+      #       quantity: "{{ $randomNumber(1, 3) }}"
+      #       uom: "{{ uom }}"
+      #       expiryDate: "{{ expiry_date }}"
+      #     weight: 2   
+      # ✅
+
+      # # delete ingredient, low weight
       # - delete:
-      #     url: "/recipe/{{ recipes_ids[$randomInt(0, recipes_ids.length)] }}"
+      #     url: "/ingredient/delete/{{ $randomNumber(60, 90) }}"
+      #     weight: 1   
+      # # ✅

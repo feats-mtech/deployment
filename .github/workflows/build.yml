@@ -1,0 +1,146 @@
+name: fEATs CD pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggers
+
+jobs:
+  cd:
+    timeout-minutes: 60
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: pipeline
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies for Playwright e2e tests
+        run: |
+          npm install
+          npx playwright install --with-deps
+        working-directory: ./scripts/e2e
+
+      - name: Set environment variables for Playwright and Artillery tests
+        run: |
+          echo "TEST_URL=${{ secrets.TEST_URL }}" >> $GITHUB_ENV
+          echo "INGREDIENT_BACKEND_URL=${{ secrets.INGREDIENT_BACKEND_URL }}" >> $GITHUB_ENV
+
+      - name: Run e2e tests
+        run: npx playwright test
+        working-directory: ./scripts/e2e
+
+      - name: Upload Playwright e2e test results
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results
+          path: ./scripts/e2e/test-results/index.html
+          retention-days: 30
+
+      - name: Install Artillery
+        run: npm install -g artillery
+      
+      - name: Run load test
+        run: |
+           artillery run --output report.json load-test.yml
+           artillery report report.json
+        working-directory: ./scripts
+
+      - name: Upload Artillery load test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: artillery-results
+          path: scripts/report.json.html
+          retention-days: 30
+
+  update-image-version:
+    needs: cd
+
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+
+    env:
+      FRONTEND_IMAGE_VERSION: ''
+      BACKEND_IMAGE_VERSION: ''
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find current test images versions
+        working-directory: k8s/test
+        shell: bash
+        run: |
+          FRONTEND_IMAGE_VERSION=$(grep -oP '(?<=image: registry.digitalocean.com/group3/feats-frontend:)[^ ]*' frontend-test.yml)
+
+          # get only the first occurrence because of microservices
+          BACKEND_IMAGE_VERSION=$(grep -m 1 -oP '(?<=image: registry.digitalocean.com/group3/feats-backend:)[^ ]*' backend-test.yml)
+
+          if [[ -z "$FRONTEND_IMAGE_VERSION" || -z "$BACKEND_IMAGE_VERSION" ]]; then
+            echo "Error: Unable to extract image versions."
+            exit 1
+          fi
+          echo "Current frontend image version: $FRONTEND_IMAGE_VERSION"
+          echo "FRONTEND_IMAGE_VERSION=$FRONTEND_IMAGE_VERSION" >> $GITHUB_ENV
+
+          echo "Current backend image version: $BACKEND_IMAGE_VERSION"
+          echo "BACKEND_IMAGE_VERSION=$BACKEND_IMAGE_VERSION" >> $GITHUB_ENV
+
+      - name: Update image versions for prod in Kubernetes YML
+        working-directory: k8s/prod
+        if: github.ref == 'refs/heads/main'
+        run: |
+          sed -i "s|image: registry.digitalocean.com/group3/feats-frontend:[^ ]*|image: registry.digitalocean.com/group3/feats-frontend:$FRONTEND_IMAGE_VERSION|" frontend-prod.yml
+          sed -i "s|image: registry.digitalocean.com/group3/feats-backend:[^ ]*|image: registry.digitalocean.com/group3/feats-backend:$BACKEND_IMAGE_VERSION|" backend-prod.yml
+          echo "Updated the image version in frontend-prod.yml to $FRONTEND_IMAGE_VERSION"
+          echo "Updated the image version in backend-prod.yml to $BACKEND_IMAGE_VERSION"
+        env:
+          FRONTEND_IMAGE_VERSION: ${{ env.FRONTEND_IMAGE_VERSION }}
+          BACKEND_IMAGE_VERSION: ${{ env.BACKEND_IMAGE_VERSION }}
+
+      - name: Commit changes to the deployment repository
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Current directory: $(pwd)"
+          git config --global user.email "pinardy.yang@gmail.com"
+          git config --global user.name "GitHub Action"
+          git add k8s/prod/frontend-prod.yml
+          git commit -m "[frontend-prod] update image version to ${{ env.FRONTEND_IMAGE_VERSION }}"
+          git add k8s/prod/backend-prod.yml
+          git commit -m "[backend-prod] update image version to ${{ env.BACKEND_IMAGE_VERSION }}"
+        env:
+          FRONTEND_IMAGE_VERSION: ${{ env.FRONTEND_IMAGE_VERSION }}
+          BACKEND_IMAGE_VERSION: ${{ env.BACKEND_IMAGE_VERSION }}
+
+      - name: Pushes to deployment repository
+        if: github.ref == 'refs/heads/main'
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        with:
+          source-directory: './'
+          destination-github-username: 'dmss-group3-practice-module'
+          destination-repository-name: 'deployment'
+          user-email: pinardy.yang@gmail.com
