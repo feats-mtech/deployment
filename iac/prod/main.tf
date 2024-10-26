@@ -39,6 +39,7 @@ resource "digitalocean_kubernetes_cluster" "app_cluster" {
     node_count = 3
   }
 }
+
 resource "helm_release" "argocd" {
   name       = "argocd"
   namespace  = "argocd"
@@ -66,6 +67,17 @@ resource "helm_release" "argocd" {
   }
 }
 
+resource "helm_release" "metrics_server" {
+  name       = "metrics-server"
+  namespace  = "kube-system"
+  chart      = "metrics-server"
+  repository = "https://kubernetes-sigs.github.io/metrics-server/"
+  version    = "3.8.2"
+
+  create_namespace = false
+
+  depends_on = [digitalocean_kubernetes_cluster.app_cluster]
+}
 
 # VPC for secure networking
 resource "digitalocean_vpc" "app_vpc" {
