@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: feats-frontend
-        image: registry.digitalocean.com/group3/feats-frontend:1.0.1
+        image: registry.digitalocean.com/group3/feats-frontend:1.0.2
         resources:
           requests:
             cpu: 250m
