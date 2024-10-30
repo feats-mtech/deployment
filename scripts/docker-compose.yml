@@ -65,6 +65,38 @@ services:
     depends_on:
       - db
 
+  backend_notification:
+    image: feats-backend:latest
+    container_name: feats-backend-notification
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,notification
+    command: ./gradlew bootRun
+    volumes:
+      - .:/home/gradle/project
+    working_dir: /home/gradle/project
+    ports:
+      - "8093:8089"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  backend_review:
+    image: feats-backend:latest
+    container_name: feats-backend-review
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,review
+    command: ./gradlew bootRun
+    volumes:
+      - .:/home/gradle/project
+    working_dir: /home/gradle/project
+    ports:
+      - "8094:8089"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
   frontend:
     image: feats-frontend:latest
     container_name: feats-frontend
