@@ -30,20 +30,20 @@ VALUES
 -- Insert all recipe records  
 INSERT INTO recipe (creator_id, name, image, description, cookingTimeInSec, difficultyLevel, rating, status, cuisine, create_datetime, update_datetime)   
 VALUES  
-    (1, 'Kung Pao Chicken', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/gongbaojiding.jpg', 'Classic Sichuan dish, spicy and flavorful.', 1800, 2, 4.7, 1, 'Chinese', NOW(), NOW()),  
-    (1, 'Tomato and Egg Stir-fry', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/fanqiechaodan.jpg', 'Homestyle delicacy, simple and easy to make.', 900, 1, 4.5, 1, 'Chinese', NOW(), NOW()),  
-    (1, 'Red Braised Pork', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/hongshaorou.jpg', 'Glossy red color, rich but not greasy.', 7200, 3, 4.8, 1, 'Chinese', NOW(), NOW()),  
-    (1, 'Mapo Tofu', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/mapodoufu.jpg', 'Spicy and aromatic, with silky soft tofu.', 1500, 2, 4.6, 1, 'Chinese', NOW(), NOW()),  
-    (105, 'Fish-flavored Eggplant', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/yuxiangqiezi.jpg', 'Sweet and sour, with tender eggplant.', 1200, 2, 4.5, 1, 'Chinese', NOW(), NOW()),  
-    (106, 'Steamed Sea Bass', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/qingzhengluyu.jpg', 'Preserves the fish''s natural flavor, healthy and delicious.', 2400, 2, 4.9, 1, 'Chinese', NOW(), NOW()),  
-    (107, 'Hot and Sour Soup', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/suanlaitan.jpg', 'Tangy and spicy, rich in nutrients.', 1800, 2, 4.4, 1, 'Chinese', NOW(), NOW()),  
-    (108, 'Garlic Broccoli', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/suanrongxilanhua.jpg', 'Light and refreshing, rich in vitamins.', 900, 1, 4.3, 1, 'Chinese', NOW(), NOW()),  
-    (109, 'Stir-fried Mushrooms with Pork Slices', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/moguchao_roupian.jpg', 'Savory and juicy, nutritionally balanced.', 1500, 2, 4.6, 1, 'Chinese', NOW(), NOW()),  
-    (110, 'Sweet and Sour Spare Ribs', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/tangcuxiaogu.jpg', 'Sweet and tangy, crispy outside and tender inside.', 3600, 3, 4.7, 1, 'Chinese', NOW(), NOW()),  
-    (111, 'Spaghetti Carbonara', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/carbonara.jpg', 'Classic Italian pasta dish', 1200, 2, 4.5, 1, 'Italian', NOW(), NOW()),  
-    (112, 'Chicken Tikka Masala', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/tikka_masala.jpg', 'Spicy and flavorful chicken curry', 1800, 3, 4.8, 1, 'Indian', NOW(), NOW()),  
-    (113, 'Beef Tacos', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/tacos.jpg', 'Mexican beef tacos with fresh salsa', 900, 2, 4.7, 1, 'Mexican', NOW(), NOW()),  
-    (114, 'Vegetarian Pizza', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/veggie_pizza.jpg', 'Pizza topped with fresh vegetables', 1500, 2, 4.4, 1, 'Italian', NOW(), NOW());
+    (1, 'Kung Pao Chicken', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/gongbaojiding.jpg', 'Classic Sichuan dish, spicy and flavorful.', 30, 2, 4.7, 1, 'Chinese', NOW(), NOW()),
+    (1, 'Tomato and Egg Stir-fry', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/fanqiechaodan.jpg', 'Homestyle delicacy, simple and easy to make.', 15, 1, 4.5, 1, 'Chinese', NOW(), NOW()),
+    (1, 'Red Braised Pork', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/hongshaorou.jpg', 'Glossy red color, rich but not greasy.', 120, 3, 4.8, 1, 'Chinese', NOW(), NOW()),
+    (1, 'Mapo Tofu', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/mapodoufu.jpg', 'Spicy and aromatic, with silky soft tofu.', 25, 2, 4.6, 1, 'Chinese', NOW(), NOW()),
+    (105, 'Fish-flavored Eggplant', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/yuxiangqiezi.jpg', 'Sweet and sour, with tender eggplant.', 20, 2, 4.5, 1, 'Chinese', NOW(), NOW()),
+    (106, 'Steamed Sea Bass', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/qingzhengluyu.jpg', 'Preserves the fish''s natural flavor, healthy and delicious.', 40, 2, 4.9, 1, 'Chinese', NOW(), NOW()),
+    (107, 'Hot and Sour Soup', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/suanlaitan.jpg', 'Tangy and spicy, rich in nutrients.', 30, 2, 4.4, 1, 'Chinese', NOW(), NOW()),
+    (108, 'Garlic Broccoli', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/suanrongxilanhua.jpg', 'Light and refreshing, rich in vitamins.', 15, 1, 4.3, 1, 'Chinese', NOW(), NOW()),
+    (109, 'Stir-fried Mushrooms with Pork Slices', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/moguchao_roupian.jpg', 'Savory and juicy, nutritionally balanced.', 25, 2, 4.6, 1, 'Chinese', NOW(), NOW()),
+    (110, 'Sweet and Sour Spare Ribs', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/tangcuxiaogu.jpg', 'Sweet and tangy, crispy outside and tender inside.', 60, 3, 4.7, 1, 'Chinese', NOW(), NOW()),
+    (111, 'Spaghetti Carbonara', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/carbonara.jpg', 'Classic Italian pasta dish', 20, 2, 4.5, 1, 'Italian', NOW(), NOW()),
+    (112, 'Chicken Tikka Masala', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/tikka_masala.jpg', 'Spicy and flavorful chicken curry', 30, 3, 4.8, 1, 'Indian', NOW(), NOW()),
+    (113, 'Beef Tacos', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/tacos.jpg', 'Mexican beef tacos with fresh salsa', 15, 2, 4.7, 1, 'Mexican', NOW(), NOW()),
+    (114, 'Vegetarian Pizza', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/veggie_pizza.jpg', 'Pizza topped with fresh vegetables', 25, 2, 4.4, 1, 'Italian', NOW(), NOW());
 
 -- Insert all recipe_ingredients records 
 INSERT INTO recipe_ingredients (recipe_id, name, quantity, uom) VALUES  
