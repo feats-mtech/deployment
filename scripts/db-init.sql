@@ -27,13 +27,14 @@ CREATE TABLE IF NOT EXISTS recipe(
 	name VARCHAR not null,
 	image VARCHAR,
 	description VARCHAR,
-	cookingTimeInSec INTEGER not null,
+	cookingTimeInMin INTEGER not null,
 	difficultyLevel INTEGER not null,
 	rating DOUBLE precision not null,
 	status INTEGER not null,
 	create_datetime TIMESTAMP WITH TIME ZONE not null,
 	update_datetime TIMESTAMP WITH TIME ZONE not null,
 	cuisine VARCHAR,
+	draftId INTEGER,
 	primary key (id)
 );
 
@@ -55,7 +56,7 @@ CREATE TABLE IF NOT EXISTS recipe_cooking_step(
 	recipe_id INTEGER,
 	description VARCHAR not null,
 	image VARCHAR,
-	primary key (id,recipe_id)
+	primary key (id)
 );
 
 -- id is labelled manually, with recipe Id, both together is the primary key...
@@ -65,7 +66,7 @@ CREATE TABLE IF NOT EXISTS recipe_ingredients(
 	name VARCHAR not null,
 	quantity DOUBLE precision not null,
 	uom VARCHAR not null,
-	primary key (id,recipe_id)
+	primary key (id)
 );
 
 -- id is labelled manually, with recipe Id, both together is the primary key...
