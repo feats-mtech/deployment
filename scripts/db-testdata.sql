@@ -28,7 +28,7 @@ VALUES
   (4, 'Expiration Alert', 'Your Bell Peppers will expire in 1 day! Please consume immediately.', 'INFO', false, NOW());
 
 -- Insert all recipe records  
-INSERT INTO recipe (creator_id, name, image, description, cookingTimeInSec, difficultyLevel, rating, status, cuisine, create_datetime, update_datetime)   
+INSERT INTO recipe (creator_id, name, image, description, cookingTimeInMin, difficultyLevel, rating, status, cuisine, create_datetime, update_datetime)
 VALUES  
     (1, 'Kung Pao Chicken', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/gongbaojiding.jpg', 'Classic Sichuan dish, spicy and flavorful.', 30, 2, 4.7, 1, 'Chinese', NOW(), NOW()),
     (1, 'Tomato and Egg Stir-fry', 'https://raw.githubusercontent.com/ZeldaMao/example-pics-final-proj/refs/heads/main/fanqiechaodan.jpg', 'Homestyle delicacy, simple and easy to make.', 15, 1, 4.5, 1, 'Chinese', NOW(), NOW()),
