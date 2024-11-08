@@ -20,14 +20,15 @@ resource "null_resource" "init_db" {
 
   provisioner "local-exec" {
     command = <<EOT
+      psql "host=${digitalocean_database_cluster.postgresql.host} port=25060 user=${var.db_username} password=${digitalocean_database_user.db_user.password} dbname=defaultdb" -f ${path.module}/../../scripts/db-init.sql
       psql "host=${digitalocean_database_cluster.postgresql.host} port=25060 user=${var.db_username} password=${digitalocean_database_user.db_user.password} dbname=defaultdb" -f ${path.module}/../../scripts/db-combined.sql
     EOT
   }
 }
 
-# resource "digitalocean_database_replica" "postgresql_replica" {
-#   cluster_id = digitalocean_database_cluster.postgresql.id
-#   name       = "postgres-replica"
-#   size       = "db-s-2vcpu-4gb"
-#   region     = var.region
-# }
+resource "digitalocean_database_replica" "postgresql_replica" {
+  cluster_id = digitalocean_database_cluster.postgresql.id
+  name       = "postgres-replica"
+  size       = "db-s-2vcpu-4gb"
+  region     = var.region
+}
