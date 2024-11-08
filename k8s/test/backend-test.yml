@@ -29,7 +29,7 @@ spec:
               name: feats-backend-config
           env:
           - name: SPRING_PROFILES_ACTIVE
-            value: k8test,authenticate,user
+            value: k8test,authenticate,user,notification
           - name: POSTGRES_K8_TEST_USER
             valueFrom:
               secretKeyRef:
@@ -249,7 +249,9 @@ data:
   service.url.user.port: "8089"
   service.url.ingredient.port: "8090"
   service.url.recipe.port: "8091"
+  service.url.notification.port: "8089"
   service.url.authenticate.address: "feats-backend-user-auth"
   service.url.user.address: "feats-backend-user-auth"
   service.url.ingredient.address: "feats-backend-ingredient"
   service.url.recipe.address: "feats-backend-recipe"
+  service.url.notification.address: "feats-backend-notification"
