@@ -5,13 +5,16 @@ This repository contains the files for local, testing and production deployment
 ## Folder Structure
 
 ```
+🗂️── iac                     Holds terraform IAC scripts
 🗂️── k8s                     Kubernetes YML files for deployment
 |  ├──🗂️ local               k8 local files for deployment to minikube
 |  ├──🗂️ test                k8 yml files for deployment to DigitalOcean test environment
 |  ├──🗂️ prod                k8 yml files for deployment to DigitalOcean prod environment
 🗂️── scripts                 Holds scripts (e.g. for database initialisation)
-🗂️── iac                     Holds terraform IAC scripts
-└── docker-compose.yml       For local development and testing using docker containers
+|  ├──🗂️ e2e                 Playwright end-to-end testing scripts
+|  ├── db-init.sql           Database initialisation script
+|  ├── db-testdata.sql       Database data seeding script
+|  ├── docker-compose.yml    For local development and testing using docker containers
 ```
 
 ## Commands
@@ -36,6 +39,19 @@ docker-compose down
 ```sh
 artillery run load-test.yml
 ```
+
+### End-to-end Testing
+
+[Playwright](https://playwright.dev/) is used for end-to-end (e2e) testing. Ensure that Playwright is [installed](https://playwright.dev/docs/intro#installing-playwright) before running the script below.
+
+```sh
+# Run e2e tests headless
+npx playwright test
+
+# Run e2e tests with browser for debugging
+npx playwright test --ui
+```
+
 
 ## Continuous Delivery
 
