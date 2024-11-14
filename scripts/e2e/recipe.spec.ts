@@ -41,6 +41,7 @@ test.describe('Recipe Page Tests', () => {
     // cooking steps list
     await page.fill('textarea[name="step-description"]', 'Add mala to the pot.');
 
-    await page.locator('#root__layout > div.layout__has__sidebar.MuiBox-root.css-7d7xpv > main > div > div > div > div:nth-child(1) > div > div:nth-child(2) > button:nth-child(1)').click();
-    });
+    const saveRecipeButton = page.locator('button:has-text("Save Recipe")');
+    await saveRecipeButton.click();
+  });
 });

@@ -25,7 +25,7 @@ test.describe('Ingredients Page Tests', () => {
 
     await page.locator('input[placeholder="e.g. banana"]').fill('pepper');
     await page.locator('input[placeholder="e.g. 35"]').fill('3');
-    await page.locator('#root__layout > div.layout__has__sidebar.MuiBox-root.css-7d7xpv > main > div > form > div.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-3.css-zow5z4-MuiGrid-root > div:nth-child(3) > div > div > input').fill('g');
+    await page.fill('input[name="unit"]','g');
     await page.locator('input[type="date"].MuiInputBase-input.MuiOutlinedInput-input')
         .fill('2024-11-18');
     const addIngredientButton = page.locator('button:has-text("Add Ingredient")');
