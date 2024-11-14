@@ -11,7 +11,7 @@ export default defineConfig({
   reporter: [['html', { outputFolder: 'test-results' }]],
   use: {
     headless: true,
-    baseURL: process.env.TEST_URL ? process.env.TEST_URL : 'http://localhost:3000',
+    baseURL: process.env.TEST_URL ? process.env.TEST_URL : 'http://localhost:5173',
     viewport: { width: 1280, height: 720 },
     actionTimeout: 10000,
     ignoreHTTPSErrors: true,
