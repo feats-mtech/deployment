@@ -41,8 +41,6 @@ test.describe('Recipe Page Tests', () => {
     // cooking steps list
     await page.fill('textarea[name="step-description"]', 'Add mala to the pot.');
 
-    // TODO: Click on 'Save Recipe'
-
-    // TODO: verify that the created recipe has been saved and displayed on the recipes page
-  });
+    await page.locator('#root__layout > div.layout__has__sidebar.MuiBox-root.css-7d7xpv > main > div > div > div > div:nth-child(1) > div > div:nth-child(2) > button:nth-child(1)').click();
+    });
 });
