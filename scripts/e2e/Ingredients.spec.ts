@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Recipe Page Tests', () => {
+test.describe('Ingredients Page Tests', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.fill('input[name="username"]', 'bob_lee');
