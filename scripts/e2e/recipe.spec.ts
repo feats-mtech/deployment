@@ -56,11 +56,9 @@ test.describe('Recipe Page Tests', () => {
     const imgSrc = await imgElement.getAttribute('src');
     expect(imgSrc).toBe('https://example.com/image.jpg');
 
-
     const headingElement = page.locator('h6[data-id="rname"]');
     const headingText = await headingElement.innerText();
     expect(headingText).toBe('mala hotpot');
-
 
     const descriptionElement = page.locator('p[data-id="rdsc"]');
     const descriptionText = await descriptionElement.innerText();
@@ -68,7 +66,7 @@ test.describe('Recipe Page Tests', () => {
 
     const spanElementCui = page.locator('span[data-id="rcui"]');
     const cuiDescriptionText = await spanElementCui.innerText();
-    expect(cuiDescriptionText).toBe("CHINESE");
+    expect(cuiDescriptionText).toBe('CHINESE');
 
     const tspanElement = page.locator('div[data-id="rdif"] svg text tspan');
     const tspanText = await tspanElement.textContent();
@@ -77,7 +75,5 @@ test.describe('Recipe Page Tests', () => {
     const ratingElement = page.locator('span[data-id="rrating"]');
     const ratingText = await ratingElement.innerText();
     expect(ratingText.trim()).toBe('0');
-
-
   });
 });
