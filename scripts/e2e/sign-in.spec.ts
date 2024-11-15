@@ -47,8 +47,8 @@ test.describe('Sign In Page Tests', () => {
     await page.fill('input[name="password"]', 'password');
 
     // Wait for login response
-    const responsePromise = page.waitForResponse(
-      response => response.url().includes('/authenticate/login')
+    const responsePromise = page.waitForResponse((response) =>
+      response.url().includes('/authenticate/login'),
     );
 
     // Click login button
@@ -71,8 +71,8 @@ test.describe('Sign In Page Tests', () => {
     await page.fill('input[name="password"]', 'password');
 
     // Wait for login response
-    const responsePromise = page.waitForResponse(
-      response => response.url().includes('/authenticate/login')
+    const responsePromise = page.waitForResponse((response) =>
+      response.url().includes('/authenticate/login'),
     );
 
     // Press Enter in password field

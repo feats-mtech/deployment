@@ -75,7 +75,7 @@ test.describe('Registration Page Tests', () => {
     // Wait and verify success dialog
     await expect(page.locator('.MuiDialog-root')).toBeVisible();
     await expect(page.locator('.MuiDialogTitle-root')).toHaveText('Success');
-    
+
     // Click back to sign in button
     await page.click('text=Back to Sign In');
 
