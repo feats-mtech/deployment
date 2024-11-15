@@ -44,4 +44,40 @@ test.describe('Recipe Page Tests', () => {
     const saveRecipeButton = page.locator('button:has-text("Save Recipe")');
     await saveRecipeButton.click();
   });
+
+  test('My Recipe Verification', async ({ page }) => {
+    // Click the first Recipes button
+    await page.locator('a:has-text("My Recipes")').nth(0).click();
+
+    // expect url to be /my-recipes
+    expect(page.url()).toContain('/my-recipes');
+
+    const imgElement = page.locator('img[data-id="rimg"]');
+    const imgSrc = await imgElement.getAttribute('src');
+    expect(imgSrc).toBe('https://example.com/image.jpg');
+
+
+    const headingElement = page.locator('h6[data-id="rname"]');
+    const headingText = await headingElement.innerText();
+    expect(headingText).toBe('mala hotpot');
+
+
+    const descriptionElement = page.locator('p[data-id="rdsc"]');
+    const descriptionText = await descriptionElement.innerText();
+    expect(descriptionText).toBe('This is a sample description for the recipe.');
+
+    const spanElementCui = page.locator('span[data-id="rcui"]');
+    const cuiDescriptionText = await spanElementCui.innerText();
+    expect(cuiDescriptionText).toBe("CHINESE");
+
+    const tspanElement = page.locator('div[data-id="rdif"] svg text tspan');
+    const tspanText = await tspanElement.textContent();
+    expect(tspanText).toBe('2');
+
+    const ratingElement = page.locator('span[data-id="rrating"]');
+    const ratingText = await ratingElement.innerText();
+    expect(ratingText.trim()).toBe('0');
+
+
+  });
 });
