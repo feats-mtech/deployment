@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: feats-backend-user-auth
-          image: registry.digitalocean.com/group3/feats-backend:1.0.3
+          image: registry.digitalocean.com/group3/feats-backend:1.0.4
           ports:
           - containerPort: 8089
           resources:
@@ -73,7 +73,7 @@ spec:
     spec:
       containers:
         - name: feats-backend-ingredient
-          image: registry.digitalocean.com/group3/feats-backend:1.0.3
+          image: registry.digitalocean.com/group3/feats-backend:1.0.4
           ports:
           - containerPort: 8090
           resources:
@@ -132,7 +132,7 @@ spec:
     spec:
       containers:
         - name: feats-backend-recipe
-          image: registry.digitalocean.com/group3/feats-backend:1.0.3
+          image: registry.digitalocean.com/group3/feats-backend:1.0.4
           ports:
           - containerPort: 8091
           resources:
