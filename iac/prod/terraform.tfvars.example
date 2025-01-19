@@ -1,5 +1,5 @@
 do_token                = "put_your_digital_ocean_token_here"
-container_registry      = "group3"
+container_registry      = "feats"
 github_username         = "put_your_github_organisation_or_username_here"
 github_token            = "put_your_github_token_here"
 

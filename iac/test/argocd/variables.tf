@@ -11,7 +11,7 @@ variable "ssh_public_key_path" {
 variable "deployment_repo_path" {
   type        = string
   description = "Deployment Repo Path"
-  default     = "git@github.com:dmss-group3-practice-module/deployment.git"
+  default     = "git@github.com:sus-practice-module/deployment.git"
 }
 
 variable "github_token" {
