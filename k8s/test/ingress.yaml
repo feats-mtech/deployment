@@ -4,9 +4,14 @@ metadata:
   name: react-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/limit-rps: "10"
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "2"
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # cert-manager.io/issuer: letsencrypt-nginx
 spec:
   ingressClassName: nginx
   rules:
+  # - host: "feats.tech"
   - http:
       paths:
       - path: /
@@ -16,3 +21,7 @@ spec:
             name: feats-frontend
             port:
               number: 80
+  # tls:
+  # - hosts:
+  #   - feats.tech
+  #   secretName: letsencrypt-nginx

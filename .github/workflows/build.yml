@@ -88,10 +88,10 @@ jobs:
         working-directory: k8s/test
         shell: bash
         run: |
-          FRONTEND_IMAGE_VERSION=$(grep -oP '(?<=image: registry.digitalocean.com/group3/feats-frontend:)[^ ]*' frontend-test.yml)
+          FRONTEND_IMAGE_VERSION=$(grep -oP '(?<=image: registry.digitalocean.com/feats/feats-frontend:)[^ ]*' frontend-test.yml)
 
           # get only the first occurrence because of microservices
-          BACKEND_IMAGE_VERSION=$(grep -m 1 -oP '(?<=image: registry.digitalocean.com/group3/feats-backend:)[^ ]*' backend-test.yml)
+          BACKEND_IMAGE_VERSION=$(grep -m 1 -oP '(?<=image: registry.digitalocean.com/feats/feats-backend:)[^ ]*' backend-test.yml)
 
           if [[ -z "$FRONTEND_IMAGE_VERSION" || -z "$BACKEND_IMAGE_VERSION" ]]; then
             echo "Error: Unable to extract image versions."
@@ -107,8 +107,8 @@ jobs:
         working-directory: k8s/prod
         if: github.ref == 'refs/heads/main'
         run: |
-          sed -i "s|image: registry.digitalocean.com/group3/feats-frontend:[^ ]*|image: registry.digitalocean.com/group3/feats-frontend:$FRONTEND_IMAGE_VERSION|" frontend-prod.yml
-          sed -i "s|image: registry.digitalocean.com/group3/feats-backend:[^ ]*|image: registry.digitalocean.com/group3/feats-backend:$BACKEND_IMAGE_VERSION|" backend-prod.yml
+          sed -i "s|image: registry.digitalocean.com/feats/feats-frontend:[^ ]*|image: registry.digitalocean.com/feats/feats-frontend:$FRONTEND_IMAGE_VERSION|" frontend-prod.yml
+          sed -i "s|image: registry.digitalocean.com/feats/feats-backend:[^ ]*|image: registry.digitalocean.com/feats/feats-backend:$BACKEND_IMAGE_VERSION|" backend-prod.yml
           echo "Updated the image version in frontend-prod.yml to $FRONTEND_IMAGE_VERSION"
           echo "Updated the image version in backend-prod.yml to $BACKEND_IMAGE_VERSION"
         env:
@@ -136,6 +136,6 @@ jobs:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
           source-directory: './'
-          destination-github-username: 'dmss-group3-practice-module'
+          destination-github-username: 'sus-practice-module'
           destination-repository-name: 'deployment'
           user-email: pinardy.yang@gmail.com

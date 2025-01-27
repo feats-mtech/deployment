@@ -19,7 +19,7 @@ variable "github_username" {
 variable "deployment_repo_path" {
   type        = string
   description = "Deployment Repo Path"
-  default     = "git@github.com:dmss-group3-practice-module/deployment.git"
+  default     = "git@github.com:sus-practice-module/deployment.git"
 }
 
 variable "region" {
@@ -31,7 +31,7 @@ variable "region" {
 variable "container_registry" {
   type        = string
   description = "DigitalOcean Container Registry name"
-  default     = "group3"
+  default     = "feats"
 }
 
 variable "cluster_name" {
