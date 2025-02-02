@@ -6,13 +6,12 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/limit-rps: "10"
     nginx.ingress.kubernetes.io/limit-burst-multiplier: "2"
-    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    # cert-manager.io/issuer: letsencrypt-nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx
   rules:
-  # - host: "feats.tech"
-  - http:
+  - host: "feats.tech"
+    http:
       paths:
       - path: /
         pathType: Prefix
@@ -21,7 +20,7 @@ spec:
             name: feats-frontend
             port:
               number: 80
-  # tls:
-  # - hosts:
-  #   - feats.tech
-  #   secretName: letsencrypt-nginx
+  tls:
+  - hosts:
+    - feats.tech
+    secretName: tls-secret
