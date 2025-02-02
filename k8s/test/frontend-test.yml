@@ -24,28 +24,42 @@ spec:
             cpu: 500m
         ports:
         - containerPort: 80
+        - containerPort: 443
         envFrom:
         - configMapRef:
             name: feats-frontend-config
+        volumeMounts:
+          - name: ssl-cert
+            mountPath: /etc/ssl/certs
+      volumes:
+        - name: ssl-cert
+          secret:
+            secretName: tls-secret
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: feats-frontend
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "your-certificate-id"
+    service.beta.kubernetes.io/do-loadbalancer-disable-lets-encrypt-dns-records: "true"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+    service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
 spec:
   type: LoadBalancer
   selector:
     app: feats-frontend
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80
       targetPort: 80
-      name: http
-    - protocol: TCP
+    - name: https
+      protocol: TCP
       port: 443
       targetPort: 80
-      name: https
 
 ---
 apiVersion: v1
