@@ -30,7 +30,7 @@ provider "github" {
 resource "digitalocean_kubernetes_cluster" "app_cluster" {
   name    = var.cluster_name
   region  = var.region
-  version = "1.31.1-do.5" // find valid version with "doctl kubernetes options versions"
+  version = "1.32.1-do.0" // find valid version with "doctl kubernetes options versions"
   registry_integration = true
 
   node_pool {
