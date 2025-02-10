@@ -104,12 +104,14 @@ This will start nginx controllers. You can verify with `kubectl get pods -n ingr
 
 3. Create the secret for holding the SSL certs with `kubectl create secret tls tls-secret --cert=./tls.crt --key=./tls.key`. Ensure that you have the tls cert and key pair in your folder.
 
-4. Add an entry to your `hosts` file:
+4. Add an entry to your `hosts` file.
+
+- On Windows, you can find it at `c:\Windows\System32\Drivers\etc\hosts`. 
+- On MacOS, you can find it at `/etc/hosts`.
 
 ```txt
 127.0.0.1       localhost
-255.255.255.255 broadcasthost
-::1             localhost
+...             ...
 127.0.0.1       feats.minikube     # <--- add this
 ```
 
@@ -119,7 +121,7 @@ This will start nginx controllers. You can verify with `kubectl get pods -n ingr
 kubectl apply -f frontend-local.yml backend-local.yml database-local.yml
 ```
 
-6. Run `minikube tunnel`. Keep the window open so that you will be able to view the frontend via the set domain name.
+6. Run `minikube tunnel`. You may be prompted to key in a password. Your cursor will hang in place after the password is keyed in. Keep the window open so that you will be able to view the frontend via the set domain name.
 
 7. View the frontend on https://feats.minikube
 
@@ -129,7 +131,7 @@ Alternatively, you can view the frontend through an URL exposed by minikube with
 minikube service --url feats-frontend
 ```
 
-### Debugging with minikube/kubernetes commands
+### Debugging with minikube commands
 
 ```sh
 # If you built the image locally, you need to load it into Minikube:
