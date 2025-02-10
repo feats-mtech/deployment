@@ -12,35 +12,59 @@ spec:
       services:
       - name: feats-frontend
         port: 80
+      middlewares:
+      - name: rate-limit
     - match: Host(`feats.tech`) && PathPrefix(`/authenticate/`)
       kind: Rule
       services:
       - name: feats-backend-user-auth
         port: 8089
+      middlewares:
+      - name: rate-limit
     - match: Host(`feats.tech`) && PathPrefix(`/user/`)
       kind: Rule
       services:
       - name: feats-backend-user-auth
         port: 8089
+      middlewares:
+      - name: rate-limit
     - match: Host(`feats.tech`) && PathPrefix(`/notification/`)
       kind: Rule
       services:
       - name: feats-backend-user-auth
         port: 8089
+      middlewares:
+      - name: rate-limit
     - match: Host(`feats.tech`) && PathPrefix(`/recipe`)
       kind: Rule
       services:
       - name: feats-backend-recipe
         port: 8091
+      middlewares:
+      - name: rate-limit
     - match: Host(`feats.tech`) && PathPrefix(`/review`)
       kind: Rule
       services:
       - name: feats-backend-recipe
         port: 8091
+      middlewares:
+      - name: rate-limit
     - match: Host(`feats.tech`) && PathPrefix(`/ingredient`)
       kind: Rule
       services:
       - name: feats-backend-ingredient
         port: 8090
+      middlewares:
+      - name: rate-limit
   tls:
     secretName: tls-secret
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: rate-limit
+spec:
+  rateLimit:
+    average: 30
+    burst: 30
