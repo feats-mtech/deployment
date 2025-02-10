@@ -1,43 +1,200 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: feats-backend
+  name: feats-backend-user-auth
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: feats-backend
+      app: feats-backend-user-auth
   template:
     metadata:
       labels:
-        app: feats-backend
+        app: feats-backend-user-auth
     spec:
       containers:
-      - name: feats-backend
-        image: feats-backend:latest
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 8089 
-        envFrom:
-        - configMapRef:
-            name: feats-backend-config
-        env:
-        - name: POSTGRES_HOST
-          value: postgres
+        - name: feats-backend-user-auth
+          image: feats-backend:latest
+          imagePullPolicy: IfNotPresent # added so that minikube doesn't try to pull image from registry
+          ports:
+          - containerPort: 8089
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+          envFrom:
+          - configMapRef:
+              name: feats-backend-config
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: k8test,authenticate,user,notification
+          - name: POSTGRES_K8_TEST_USER
+            value: postgres
+          - name: POSTGRES_K8_TEST_PASSWORD
+            value: postgres
+          - name: POSTGRES_DB
+            value: postgres
+          - name: POSTGRES_K8_TEST_PORT
+            value: "5433"
+          - name: POSTGRES_K8_TEST_IP
+            value: postgres
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feats-backend-ingredient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feats-backend-ingredient
+  template:
+    metadata:
+      labels:
+        app: feats-backend-ingredient
+    spec:
+      containers:
+        - name: feats-backend-ingredient
+          image: feats-backend:latest
+          imagePullPolicy: IfNotPresent # added so that minikube doesn't try to pull image from registry
+          ports:
+          - containerPort: 8090
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+          envFrom:
+          - configMapRef:
+              name: feats-backend-config
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: k8test,ingredient
+          - name: POSTGRES_K8_TEST_USER
+            value: postgres
+          - name: POSTGRES_K8_TEST_PASSWORD
+            value: postgres
+          - name: POSTGRES_DB
+            value: postgres
+          - name: POSTGRES_K8_TEST_PORT
+            value: "5433"
+          - name: POSTGRES_K8_TEST_IP
+            value: postgres
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feats-backend-recipe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feats-backend-recipe
+  template:
+    metadata:
+      labels:
+        app: feats-backend-recipe
+    spec:
+      containers:
+        - name: feats-backend-recipe
+          image: feats-backend:latest
+          imagePullPolicy: IfNotPresent # added so that minikube doesn't try to pull image from registry
+          ports:
+          - containerPort: 8091
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+          envFrom:
+          - configMapRef:
+              name: feats-backend-config
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: k8test,recipe
+          - name: POSTGRES_K8_TEST_USER
+            value: postgres
+          - name: POSTGRES_K8_TEST_PASSWORD
+            value: postgres
+          - name: POSTGRES_DB
+            value: postgres
+          - name: POSTGRES_K8_TEST_PORT
+            value: "5433"
+          - name: POSTGRES_K8_TEST_IP
+            value: postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feats-backend-user-auth
+spec:
+  selector:
+    app: feats-backend-user-auth
+  ports:
+    - protocol: TCP
+      port: 8089 # external port to be exposed
+      targetPort: 8089
+  type: ClusterIP
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: feats-backend
+  name: feats-backend-ingredient
 spec:
   selector:
-    app: feats-backend
+    app: feats-backend-ingredient
   ports:
     - protocol: TCP
-      port: 8089
+      port: 8090 # external port to be exposed
       targetPort: 8089
   type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feats-backend-recipe
+spec:
+  selector:
+    app: feats-backend-recipe
+  ports:
+    - protocol: TCP
+      port: 8091 # external port to be exposed
+      targetPort: 8089
+  type: ClusterIP
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: feats-backend-ingredient
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: feats-backend-ingredient
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 15
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
 
 ---
 apiVersion: v1
@@ -45,10 +202,14 @@ kind: ConfigMap
 metadata:
   name: feats-backend-config
 data:
-  POSTGRES_USER: "username"
-  POSTGRES_PASSWORD: "password"
-  POSTGRES_DB: "postgres"
-  POSTGRES_PORT: "5432"
-  POSTGRES_LOCAL_IP: "localhost"
-  POSTGRES_DOCKER_IP: "192.168.49.2"
-  SPRING_PROFILES_ACTIVE: "docker"
+  service.url.authenticate.port: "8089"
+  service.url.user.port: "8089"
+  service.url.ingredient.port: "8090"
+  service.url.recipe.port: "8091"
+  service.url.notification.port: "8089"
+  service.url.authenticate.address: "feats-backend-user-auth"
+  service.url.user.address: "feats-backend-user-auth"
+  service.url.ingredient.address: "feats-backend-ingredient"
+  service.url.recipe.address: "feats-backend-recipe"
+  service.url.notification.address: "feats-backend-user-auth"
+  cors.allowed.origins: "https://feats.tech"

@@ -15,25 +15,45 @@ spec:
       containers:
       - name: feats-frontend
         image: feats-frontend:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent # added so that minikube doesn't try to pull image from registry
+        resources:
+          requests:
+            cpu: 250m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
+            cpu: 500m
         ports:
         - containerPort: 80
+        - containerPort: 443
         envFrom:
         - configMapRef:
             name: feats-frontend-config
-
+        volumeMounts:
+          - name: ssl-cert
+            mountPath: /etc/ssl/certs
+      volumes:
+        - name: ssl-cert
+          secret:
+            secretName: tls-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: feats-frontend
+  # NOTE: no annotations needed for minikube
 spec:
-  type: NodePort # to use LoadBalancer for prod workloads
+  type: NodePort
   selector:
     app: feats-frontend
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
       targetPort: 80
 
 ---
@@ -42,5 +62,18 @@ kind: ConfigMap
 metadata:
   name: feats-frontend-config
 data:
-  PORT: "3000"
-  HOST: "127.0.0.1"
+  VITE_PORT: "3000"
+  VITE_HOST: "127.0.0.1"
+  VITE_BACKEND_HAS_DOMAIN_NAME: "true"
+  VITE_BACKEND_AUTHENTICATE_PORT: "8089"
+  VITE_BACKEND_USER_PORT: "8089"
+  VITE_BACKEND_INGREDIENT_PORT: "8090"
+  VITE_BACKEND_RECIPE_PORT: "8091"
+  VITE_BACKEND_REVIEW_PORT: "8091"
+  VITE_BACKEND_NOTIFICATION_PORT: "8089"
+  VITE_BACKEND_AUTHENTICATE_URL: "https://feats.minikube"
+  VITE_BACKEND_USER_URL: "https://feats.minikube"
+  VITE_BACKEND_INGREDIENT_URL: "https://feats.minikube"
+  VITE_BACKEND_RECIPE_URL: "https://feats.minikube"
+  VITE_BACKEND_REVIEW_URL: "https://feats.minikube"
+  VITE_BACKEND_NOTIFICATION_URL: "https://feats.minikube"
