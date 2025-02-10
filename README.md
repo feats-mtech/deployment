@@ -121,9 +121,11 @@ This will start nginx controllers. You can verify with `kubectl get pods -n ingr
 kubectl apply -f frontend-local.yml backend-local.yml database-local.yml
 ```
 
-6. Run `minikube tunnel`. You may be prompted to key in a password. Your cursor will hang in place after the password is keyed in. Keep the window open so that you will be able to view the frontend via the set domain name.
+6. Seed the postgres database - Run `kubectl port-forward POSTGRES_POD_NAME 5433` to forward the port such that you can access the database via your SQL editor (host: `localhost`, port: `5433`, database, username and password are `postgres`). Once connected, run the SQL seed scripts (`scripts/db-init.sql` and `scripts/db-testdata.sql`) to seed the database directly.
 
-7. View the frontend on https://feats.minikube
+7. Run `minikube tunnel`. You may be prompted to key in a password. Your cursor will hang in place after the password is keyed in. Keep the window open so that you will be able to view the frontend via the set domain name.
+
+8. View the frontend on https://feats.minikube
 
 Alternatively, you can view the frontend through an URL exposed by minikube with this command:
 
