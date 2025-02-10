@@ -43,7 +43,7 @@ spec:
             cpu: "500m"
 
         ports:
-        - containerPort: 5432
+        - containerPort: 5433 # Using a different port to avoid conflicts with the host machine
           name: postgres
 
 ---
@@ -56,7 +56,7 @@ spec:
     app: postgres
   ports:
     - protocol: TCP
-      port: 5432
+      port: 5433 # Using a different port to avoid conflicts with the host machine
       targetPort: 5432
       nodePort: 30007 # Choose a port within the range 30000-32767
   type: NodePort # Using NodePort to expose the database to the host machine
@@ -68,8 +68,7 @@ metadata:
   name: postgres-credentials
 type: Opaque
 data:
-  user: YWRtaW4=
-  password: YWRtaW4=
-  database: YWRtaW4=
-
+  user: cG9zdGdyZXM= # base64 encoded value for "postgres"
+  password: cG9zdGdyZXM= # base64 encoded value for "postgres"
+  database: cG9zdGdyZXM= # base64 encoded value for "postgres"
 

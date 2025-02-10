@@ -15,6 +15,34 @@ spec:
             name: feats-frontend
             port:
               number: 80
+      - path: /authenticate
+        pathType: Prefix
+        backend:
+          service:
+            name: feats-backend-user-auth
+            port:
+              number: 8089
+      - path: /user
+        pathType: Prefix
+        backend:
+          service:
+            name: feats-backend-user-auth
+            port:
+              number: 8089
+      - path: /ingredient
+        pathType: Prefix
+        backend:
+          service:
+            name: feats-backend-ingredient
+            port:
+              number: 8090
+      - path: /recipe
+        pathType: Prefix
+        backend:
+          service:
+            name: feats-backend-recipe
+            port:
+              number: 8091
   tls:
   - hosts:
     - feats.minikube
