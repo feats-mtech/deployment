@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: feats-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "feats.minikube"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: feats-frontend
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - feats.minikube
+    secretName: tls-secret

@@ -79,3 +79,80 @@ flowchart LR
 - Once load test and e2e tests pass, allow for manual trigger to promote to production environment
 - Only the admin is able to promote to production environment (i.e. normal developers not able to promote)
 - The ArgoCD agent deployed in the production environment will listen to the changes inside the repository’s k8s/prod folder and deploy the latest application to the production environment accordingly
+
+## Running applications on Kubernetes locally (minikube)
+
+### Installation
+
+1. Install [Docker](https://docs.docker.com/desktop/setup/install/)
+2. Install [minikube](https://minikube.sigs.k8s.io/docs/start/)
+
+### Getting Started
+
+Reference: https://stackoverflow.com/questions/58561682/minikube-with-ingress-example-not-working
+
+1. Run the local kubernetes cluster with `minikube start`
+
+2. Enable minikube addons:
+
+```sh
+minikube addons enable ingress
+minikube addons enable ingress-dns
+```
+
+This will start nginx controllers. You can verify with `kubectl get pods -n ingress-nginx`
+
+3. Create the secret for holding the SSL certs with `kubectl create secret tls tls-secret --cert=./tls.crt --key=./tls.key`. Ensure that you have the tls cert and key pair in your folder.
+
+4. Add an entry to your `hosts` file:
+
+```txt
+127.0.0.1       localhost
+255.255.255.255 broadcasthost
+::1             localhost
+127.0.0.1       feats.minikube     # <--- add this
+```
+
+5. Apply the kubernetes YAML files in `k8s/local`.
+
+```sh
+kubectl apply -f frontend-local.yml backend-local.yml database-local.yml
+```
+
+6. Run `minikube tunnel`. Keep the window open so that you will be able to view the frontend via the set domain name.
+
+7. View the frontend on https://feats.minikube
+
+Alternatively, you can view the frontend through an URL exposed by minikube with this command:
+
+```sh
+minikube service --url feats-frontend
+```
+
+### Debugging with minikube/kubernetes commands
+
+```sh
+# If you built the image locally, you need to load it into Minikube:
+eval $(minikube docker-env)  # Point to Minikube's Docker daemon
+eval $(minikube docker-env env -u) # Unset from Minikube's Docker daemon
+
+docker build -t your-image-name:latest .  # Build the image locally
+
+# Alternatively, build image directly into Minikube
+minikube image build -t your-image-name:latest .
+
+# switch your Docker CLI back to the default Docker daemon
+eval $(minikube docker-env --unset)
+
+# view URL of deployed frontend
+minikube service feats-frontend --url
+
+# check IP of minikube cluster
+minikube ip
+
+# opens the service in your default web browser with the URL and port
+minikube service feats-frontend
+
+# add image from local Docker into Minikube daemon
+minikube image load image-name:latest
+```
