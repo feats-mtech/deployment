@@ -1,0 +1,46 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: feats-ingress
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`feats.tech`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+      - name: feats-frontend
+        port: 80
+    - match: Host(`feats.tech`) && PathPrefix(`/authenticate/`)
+      kind: Rule
+      services:
+      - name: feats-backend-user-auth
+        port: 8089
+    - match: Host(`feats.tech`) && PathPrefix(`/user/`)
+      kind: Rule
+      services:
+      - name: feats-backend-user-auth
+        port: 8089
+    - match: Host(`feats.tech`) && PathPrefix(`/notification/`)
+      kind: Rule
+      services:
+      - name: feats-backend-user-auth
+        port: 8089
+    - match: Host(`feats.tech`) && PathPrefix(`/recipe`)
+      kind: Rule
+      services:
+      - name: feats-backend-recipe
+        port: 8091
+    - match: Host(`feats.tech`) && PathPrefix(`/review`)
+      kind: Rule
+      services:
+      - name: feats-backend-recipe
+        port: 8091
+    - match: Host(`feats.tech`) && PathPrefix(`/ingredient`)
+      kind: Rule
+      services:
+      - name: feats-backend-ingredient
+        port: 8090
+  tls:
+    secretName: tls-secret
