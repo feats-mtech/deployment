@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: feats-frontend
-        image: registry.digitalocean.com/feats/feats-frontend:1.0.4
+        image: registry.digitalocean.com/feats/feats-frontend:latest
         resources:
           requests:
             cpu: 250m
@@ -43,7 +43,7 @@ metadata:
   name: feats-frontend
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
-    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "your-certificate-id"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "34eaf3b0-42c3-4ef1-a2a5-25d675fcea3d"
     service.beta.kubernetes.io/do-loadbalancer-disable-lets-encrypt-dns-records: "true"
     service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
     service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
@@ -69,15 +69,16 @@ metadata:
 data:
   VITE_PORT: "3000"
   VITE_HOST: "127.0.0.1"
+  VITE_BACKEND_HAS_DOMAIN_NAME: "true"
   VITE_BACKEND_AUTHENTICATE_PORT: "8089"
   VITE_BACKEND_USER_PORT: "8089"
   VITE_BACKEND_INGREDIENT_PORT: "8090"
   VITE_BACKEND_RECIPE_PORT: "8091"
   VITE_BACKEND_REVIEW_PORT: "8091"
   VITE_BACKEND_NOTIFICATION_PORT: "8089"
-  VITE_BACKEND_AUTHENTICATE_URL: "http://209.38.56.78"
-  VITE_BACKEND_USER_URL: "http://209.38.56.78"
-  VITE_BACKEND_INGREDIENT_URL: "http://157.230.193.217"
-  VITE_BACKEND_RECIPE_URL: "http://188.166.205.96"
-  VITE_BACKEND_REVIEW_URL: "http://188.166.205.96"
-  VITE_BACKEND_NOTIFICATION_URL: "http://209.38.56.78"
+  VITE_BACKEND_AUTHENTICATE_URL: "https://feats.tech"
+  VITE_BACKEND_USER_URL: "https://feats.tech"
+  VITE_BACKEND_INGREDIENT_URL: "https://feats.tech"
+  VITE_BACKEND_RECIPE_URL: "https://feats.tech"
+  VITE_BACKEND_REVIEW_URL: "https://feats.tech"
+  VITE_BACKEND_NOTIFICATION_URL: "https://feats.tech"

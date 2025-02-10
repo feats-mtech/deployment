@@ -79,6 +79,28 @@ resource "helm_release" "metrics_server" {
   depends_on = [digitalocean_kubernetes_cluster.app_cluster]
 }
 
+resource "helm_release" "traefik" {
+  name       = "traefik"
+  namespace  = "default"
+  chart      = "traefik"
+  repository = "https://helm.traefik.io/traefik"
+  version    = "10.19.4"
+
+  set {
+    name  = "service.type"
+    value = "LoadBalancer"
+  }
+
+  set {
+    name  = "additionalArguments[0]"
+    value = "--providers.kubernetesingress=true"
+  }
+
+  create_namespace = false
+
+  depends_on = [digitalocean_kubernetes_cluster.app_cluster]
+}
+
 # VPC for secure networking
 resource "digitalocean_vpc" "app_vpc" {
   name   = "app-vpc-test"

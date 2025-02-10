@@ -174,7 +174,6 @@ spec:
                 name: feats-backend-secret
                 key: POSTGRES_K8_TEST_IP
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -186,7 +185,7 @@ spec:
     - protocol: TCP
       port: 8089 # external port to be exposed
       targetPort: 8089
-  type: LoadBalancer
+  type: ClusterIP
 
 ---
 apiVersion: v1
@@ -200,7 +199,7 @@ spec:
     - protocol: TCP
       port: 8090 # external port to be exposed
       targetPort: 8089
-  type: LoadBalancer
+  type: ClusterIP
 
 ---
 apiVersion: v1
@@ -214,7 +213,7 @@ spec:
     - protocol: TCP
       port: 8091 # external port to be exposed
       targetPort: 8089
-  type: LoadBalancer
+  type: ClusterIP
 
 ---
 apiVersion: autoscaling/v2
@@ -250,8 +249,9 @@ data:
   service.url.ingredient.port: "8090"
   service.url.recipe.port: "8091"
   service.url.notification.port: "8089"
-  service.url.authenticate.address: "209.38.56.78"
-  service.url.user.address: "209.38.56.78"
-  service.url.ingredient.address: "157.230.193.217"
-  service.url.recipe.address: "188.166.205.96"
-  service.url.notification.address: "209.38.56.78"
+  service.url.authenticate.address: "feats-backend-user-auth"
+  service.url.user.address: "feats-backend-user-auth"
+  service.url.ingredient.address: "feats-backend-ingredient"
+  service.url.recipe.address: "feats-backend-recipe"
+  service.url.notification.address: "feats-backend-user-auth"
+  cors.allowed.origins: "https://feats.tech"

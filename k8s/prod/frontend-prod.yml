@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: feats-frontend
-        image: registry.digitalocean.com/feats/feats-frontend:1.0.3
+        image: registry.digitalocean.com/feats/feats-frontend:1.0.4
         resources:
           requests:
             cpu: 250m
@@ -55,15 +55,16 @@ metadata:
 data:
   VITE_PORT: "3000"
   VITE_HOST: "127.0.0.1"
+  VITE_BACKEND_HAS_DOMAIN_NAME: "true"
   VITE_BACKEND_AUTHENTICATE_PORT: "8089"
   VITE_BACKEND_USER_PORT: "8089"
   VITE_BACKEND_INGREDIENT_PORT: "8090"
   VITE_BACKEND_RECIPE_PORT: "8091"
   VITE_BACKEND_REVIEW_PORT: "8091"
   VITE_BACKEND_NOTIFICATION_PORT: "8089"
-  VITE_BACKEND_AUTHENTICATE_URL: "http://feats-backend"
-  VITE_BACKEND_USER_URL: "http://feats-backend"
-  VITE_BACKEND_INGREDIENT_URL: "http://feats-backend"
-  VITE_BACKEND_RECIPE_URL: "http://feats-backend"
-  VITE_BACKEND_REVIEW_URL: "http://feats-backend"
-  VITE_BACKEND_NOTIFICATION_URL: "http://feats-backend"
+  VITE_BACKEND_AUTHENTICATE_URL: "https://feats.tech"
+  VITE_BACKEND_USER_URL: "https://feats.tech"
+  VITE_BACKEND_INGREDIENT_URL: "https://feats.tech"
+  VITE_BACKEND_RECIPE_URL: "https://feats.tech"
+  VITE_BACKEND_REVIEW_URL: "https://feats.tech"
+  VITE_BACKEND_NOTIFICATION_URL: "https://feats.tech"
