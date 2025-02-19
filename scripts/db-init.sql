@@ -9,12 +9,13 @@ drop table if exists notification;
 -- id is a running number...
 CREATE TABLE IF NOT EXISTS user_account(
 	id SERIAL,
-	name VARCHAR not null,
-	password VARCHAR not null,
+	name VARCHAR,
+	password VARCHAR,
 	display_name VARCHAR not null,
 	email VARCHAR not null,
 	status INTEGER not null,
 	role INTEGER not null,
+	google_id VARCHAR,
 	create_datetime TIMESTAMP WITH TIME ZONE not null,
 	update_datetime TIMESTAMP WITH TIME ZONE not null,
 	primary key (id)
