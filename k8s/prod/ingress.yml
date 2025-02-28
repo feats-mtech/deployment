@@ -21,6 +21,27 @@ spec:
         port: 8089
       middlewares:
       - name: rate-limit
+    - match: Host(`feats.tech`) && PathPrefix(`/oauth2/`)
+      kind: Rule
+      services:
+      - name: feats-backend-user-auth
+        port: 8089
+      middlewares:
+      - name: rate-limit
+    - match: Host(`feats.tech`) && PathPrefix(`/login/`)
+      kind: Rule
+      services:
+      - name: feats-backend-user-auth
+        port: 8089
+      middlewares:
+      - name: rate-limit
+    - match: Host(`feats.tech`) && PathPrefix(`/logout`)
+      kind: Rule
+      services:
+      - name: feats-backend-user-auth
+        port: 8089
+      middlewares:
+      - name: rate-limit
     - match: Host(`feats.tech`) && PathPrefix(`/user/`)
       kind: Rule
       services:
