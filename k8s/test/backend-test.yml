@@ -55,6 +55,16 @@ spec:
               secretKeyRef:
                 name: feats-backend-secret
                 key: POSTGRES_K8_TEST_IP
+          - name: GOOGLE_OAUTH_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: GOOGLE_OAUTH_CLIENT_ID
+          - name: GOOGLE_OAUTH_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: GOOGLE_OAUTH_CLIENT_SECRET
 ---
 
 apiVersion: apps/v1
@@ -114,6 +124,16 @@ spec:
               secretKeyRef:
                 name: feats-backend-secret
                 key: POSTGRES_K8_TEST_IP
+          - name: GOOGLE_OAUTH_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: GOOGLE_OAUTH_CLIENT_ID
+          - name: GOOGLE_OAUTH_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: GOOGLE_OAUTH_CLIENT_SECRET
 ---
 
 apiVersion: apps/v1
@@ -173,6 +193,17 @@ spec:
               secretKeyRef:
                 name: feats-backend-secret
                 key: POSTGRES_K8_TEST_IP
+          - name: GOOGLE_OAUTH_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: GOOGLE_OAUTH_CLIENT_ID
+          - name: GOOGLE_OAUTH_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: feats-backend-secret
+                key: GOOGLE_OAUTH_CLIENT_SECRET
+
 ---
 apiVersion: v1
 kind: Service
@@ -255,3 +286,4 @@ data:
   service.url.recipe.address: "feats-backend-recipe"
   service.url.notification.address: "feats-backend-user-auth"
   cors.allowed.origins: "https://feats.tech"
+  frontend.url.address: "https://feats.tech"
