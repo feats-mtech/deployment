@@ -52,3 +52,16 @@ variable "db_username" {
   description = "Username for the PostgreSQL database"
   sensitive   = true
 }
+
+// GOOGLE
+variable "google_client_id" {
+  type        = string
+  description = "Google Client ID for OAuth2 Login"
+  sensitive   = true
+}
+
+variable "google_client_secret" {
+  type        = string
+  description = "Google Client Secret for OAuth2 Login"
+  sensitive   = true
+}

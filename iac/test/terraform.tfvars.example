@@ -6,3 +6,7 @@ github_token            = "put_your_github_token_here"
 # database
 db_name                 = "put_your_postgres_user_here"
 db_username             = "put_your_postgres_password_here"
+
+# google
+google_client_id        = "put_your_google_client_id_here"
+google_client_secret    = "put_your_google_client_secret_here"
