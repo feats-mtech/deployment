@@ -14,6 +14,13 @@ spec:
         port: 80
       middlewares:
       - name: rate-limit
+    - match: Host(`feats.tech`) && PathPrefix(`/public`)
+      kind: Rule
+      services:
+      - name: feats-backend-user-auth
+        port: 8089
+      middlewares:
+      - name: rate-limit
     - match: Host(`feats.tech`) && PathPrefix(`/authenticate/`)
       kind: Rule
       services:

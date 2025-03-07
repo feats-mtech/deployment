@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: feats-backend-user-auth
-          image: registry.digitalocean.com/feats/feats-backend:1.0.4
+          image: registry.digitalocean.com/feats/feats-backend:1.0.5
           ports:
           - containerPort: 8089
           resources:
@@ -83,7 +83,7 @@ spec:
     spec:
       containers:
         - name: feats-backend-ingredient
-          image: registry.digitalocean.com/feats/feats-backend:1.0.4
+          image: registry.digitalocean.com/feats/feats-backend:1.0.5
           ports:
           - containerPort: 8090
           resources:
@@ -152,7 +152,7 @@ spec:
     spec:
       containers:
         - name: feats-backend-recipe
-          image: registry.digitalocean.com/feats/feats-backend:1.0.4
+          image: registry.digitalocean.com/feats/feats-backend:1.0.5
           ports:
           - containerPort: 8091
           resources:
@@ -216,7 +216,7 @@ spec:
     - protocol: TCP
       port: 8089 # external port to be exposed
       targetPort: 8089
-  type: ClusterIP
+  type: LoadBalancer
 
 ---
 apiVersion: v1
