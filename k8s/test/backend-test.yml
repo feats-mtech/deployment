@@ -216,7 +216,7 @@ spec:
     - protocol: TCP
       port: 8089 # external port to be exposed
       targetPort: 8089
-  type: LoadBalancer
+  type: ClusterIP
 
 ---
 apiVersion: v1
