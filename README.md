@@ -1,6 +1,13 @@
-# Deployment
+# fEATs Deployment
 
-This repository contains the files for local, testing and production deployment
+fEATs is a platform for tracking your ingredients and their expiry dates. You can also add, publish and share your recipes with other people.
+
+This repository contains the files for local, testing and production deployment. The platform is deployed as a Kubernetes cluster through Terraform scripts on DigitalOcean.
+
+Respective code repositories:
+- [frontend](https://github.com/feats-mtech/frontend)
+- [frontend](https://github.com/feats-mtech/backend)
+- [mobile](https://github.com/feats-mtech/mobile)
 
 ## Folder Structure
 

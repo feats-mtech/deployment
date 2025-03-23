@@ -119,7 +119,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           echo "Current directory: $(pwd)"
-          git config --global user.email "pinardy.yang@gmail.com"
+          git config --global user.email "feats@gmail.com"
           git config --global user.name "GitHub Action"
           git add k8s/prod/frontend-prod.yml
           git commit -m "[frontend-prod] update image version to ${{ env.FRONTEND_IMAGE_VERSION }}"
@@ -136,6 +136,6 @@ jobs:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
           source-directory: './'
-          destination-github-username: 'sus-practice-module'
+          destination-github-username: 'feats-mtech'
           destination-repository-name: 'deployment'
-          user-email: pinardy.yang@gmail.com
+          user-email: feats@gmail.com
