@@ -32,6 +32,9 @@ Respective code repositories:
 # starts up services in listed in `docker-compose.yml`
 docker-compose up
 
+# start up only other services (jaeger)
+docker-compose -f docker-compose-jaeger.yml up -d
+
 # starts up services detached listed in `docker-compose.yml`
 docker-compose up -d
 
