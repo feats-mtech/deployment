@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   jaeger:
-    image: jaegertracing/all-in-one:1.56
+    image: jaegertracing/all-in-one:1.73.0
     container_name: jaeger
     ports:
       - "16686:16686" # Jaeger UI
@@ -28,7 +28,7 @@ services:
       - jaeger
 
   grafana:
-    image: grafana/grafana:10.4.2
+    image: grafana/grafana:12.2.0-17567790421
     container_name: grafana
     ports:
       - "3000:3000" # Grafana UI. Use admin / admin to access dashboard
