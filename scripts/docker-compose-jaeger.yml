@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   jaeger:
@@ -27,5 +27,16 @@ services:
     depends_on:
       - jaeger
 
+  grafana:
+    image: grafana/grafana:10.4.2
+    container_name: grafana
+    ports:
+      - "3000:3000" # Grafana UI. Use admin / admin to access dashboard
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - jaeger
+
 volumes:
   jaeger_data:
+  grafana_data:
